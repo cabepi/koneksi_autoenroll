@@ -6,15 +6,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
-    const { identifier, code } = req.body;
+    const { otpId, code } = req.body;
 
-    if (!identifier || !code) {
-        return res.status(400).json({ error: 'Identificador y código son requeridos' });
+    if (!otpId || !code) {
+        return res.status(400).json({ error: 'ID de OTP y código son requeridos' });
     }
 
     try {
         const otpService = new OtpService();
-        const isValid = await otpService.validateOtp(identifier, code);
+        const isValid = await otpService.validateOtp(otpId, code);
 
         if (isValid) {
             return res.status(200).json({ message: 'Código válido', valid: true });

@@ -12,8 +12,9 @@ export class OtpService {
 
     /**
      * Generates a 4-digit OTP, saves it to the database, and sends it via email.
+     * Returns the UUID of the generated OTP if successful, otherwise null.
      */
-    public async generateAndSendOtp(identifier: string): Promise<boolean> {
+    public async generateAndSendOtp(identifier: string): Promise<string | null> {
         // Generate a random 4-digit code
         const code = Math.floor(1000 + Math.random() * 9000).toString();
 
@@ -23,7 +24,7 @@ export class OtpService {
         expiresAt.setMinutes(expiresAt.getMinutes() + expirationMinutes);
 
         // Save to DB
-        await this.otpRepository.createOtp(identifier, code, expiresAt);
+        const newOtp = await this.otpRepository.createOtp(identifier, code, expiresAt);
 
         // Send Email
         const htmlBody = this.notificationService.getOtpEmailTemplate(code, expirationMinutes);
@@ -31,14 +32,14 @@ export class OtpService {
 
         const isSent = await this.notificationService.sendEmail(identifier, subject, htmlBody);
 
-        return isSent;
+        return isSent ? newOtp.id : null;
     }
 
     /**
-     * Validates an OTP against the database records.
+     * Validates an OTP against the database records using its unique ID.
      */
-    public async validateOtp(identifier: string, code: string): Promise<boolean> {
-        const validOtp = await this.otpRepository.findValidOtp(identifier, code);
+    public async validateOtp(id: string, code: string): Promise<boolean> {
+        const validOtp = await this.otpRepository.findValidOtp(id, code);
 
         if (!validOtp) {
             return false;

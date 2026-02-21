@@ -18,6 +18,9 @@ import enrollmentRequestsHandler from '../../api/enrollment-requests.js';
 
 dotenv.config();
 
+// Enforce UTC-4 / America/Santo_Domingo timezone for the Node process
+process.env.TZ = 'America/Santo_Domingo';
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret_fallback_key';

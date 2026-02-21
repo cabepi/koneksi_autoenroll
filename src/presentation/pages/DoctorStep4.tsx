@@ -12,7 +12,7 @@ interface ProfessionalData {
     email: string;
     isEmailVerified: boolean;
     telefono: string;
-    biometricImage: string | null;
+    biometricImageUrl: string | null;
 }
 
 // Color palette for team member avatars
@@ -133,10 +133,10 @@ export default function DoctorStep4() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-400 mb-1">Verificación Biométrica</label>
-                                {professionalData.biometricImage ? (
+                                {professionalData.biometricImageUrl ? (
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-green-400">
-                                            <img src={professionalData.biometricImage} alt="Biometría" className="w-full h-full object-cover" />
+                                            <img src={professionalData.biometricImageUrl} alt="Biometría" className="w-full h-full object-cover" />
                                         </div>
                                         <span className="text-green-600 text-sm font-bold flex items-center gap-1">
                                             <span className="material-symbols-outlined text-sm">check_circle</span>
@@ -286,13 +286,19 @@ export default function DoctorStep4() {
                                             email: professionalData.email,
                                             emailVerified: professionalData.isEmailVerified,
                                             phone: professionalData.telefono,
-                                            biometricImage: professionalData.biometricImage,
+                                            biometricImageBase64: professionalData.biometricImageUrl,
                                             teamMembers,
                                             medicalCenters,
                                             arsProviders: arsRecords,
                                         }),
                                     });
                                     if (response.ok) {
+                                        // Clear registration data from browser context upon success
+                                        localStorage.removeItem('koneksi_registration_step2');
+                                        localStorage.removeItem('koneksi_team_members');
+                                        localStorage.removeItem('koneksi_selected_centers');
+                                        localStorage.removeItem('koneksi_ars_providers');
+
                                         navigate('/register/enrollment-success');
                                     } else {
                                         alert('Error al enviar la solicitud. Por favor intente nuevamente.');

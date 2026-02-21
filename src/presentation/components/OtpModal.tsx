@@ -3,16 +3,18 @@ import { useState, useEffect, useRef } from 'react';
 interface OtpModalProps {
     isOpen: boolean;
     email: string;
+    otpId: string | null; // Added otpId prop
     onClose: () => void;
     onSuccess: () => void;
     expirationMinutes?: number;
 }
 
-export default function OtpModal({ isOpen, email, onClose, onSuccess, expirationMinutes = 5 }: OtpModalProps) {
+export default function OtpModal({ isOpen, email, otpId: initialOtpId, onClose, onSuccess, expirationMinutes = 5 }: OtpModalProps) {
     const [otp, setOtp] = useState(['', '', '', '']);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const [secondsLeft, setSecondsLeft] = useState(expirationMinutes * 60);
+    const [currentOtpId, setCurrentOtpId] = useState<string | null>(initialOtpId);
 
     const inputRefs = [
         useRef<HTMLInputElement>(null),
@@ -27,8 +29,9 @@ export default function OtpModal({ isOpen, email, onClose, onSuccess, expiration
             setOtp(['', '', '', '']);
             setErrorMsg("");
             setSecondsLeft(expirationMinutes * 60);
+            setCurrentOtpId(initialOtpId);
         }
-    }, [isOpen, expirationMinutes]);
+    }, [isOpen, expirationMinutes, initialOtpId]);
 
     // Timer logic
     useEffect(() => {
@@ -88,7 +91,7 @@ export default function OtpModal({ isOpen, email, onClose, onSuccess, expiration
             const response = await fetch('/api/otp/validate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ identifier: email, code: fullCode })
+                body: JSON.stringify({ otpId: currentOtpId, code: fullCode })
             });
 
             if (!response.ok) {
@@ -125,7 +128,10 @@ export default function OtpModal({ isOpen, email, onClose, onSuccess, expiration
 
             if (!response.ok) throw new Error("No pudimos reenviar el código");
 
+            const data = await response.json();
+
             // Success
+            setCurrentOtpId(data.otpId);
             setSecondsLeft(expirationMinutes * 60);
             setOtp(['', '', '', '']);
             inputRefs[0].current?.focus();

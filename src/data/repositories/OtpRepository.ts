@@ -1,7 +1,7 @@
 import { query } from '../db.js';
 
 export interface OtpRecord {
-    id: number;
+    id: string;
     identifier: string;
     code: string;
     created_at: Date;
@@ -20,22 +20,22 @@ export class OtpRepository {
         return rows[0] as OtpRecord;
     }
 
-    async findValidOtp(identifier: string, code: string): Promise<OtpRecord | null> {
+    async findValidOtp(id: string, code: string): Promise<OtpRecord | null> {
         const queryText = `
             SELECT * FROM koneksi_autoenroll.otps
-            WHERE identifier = $1 
+            WHERE id = $1 
               AND code = $2 
               AND verified = false
-              AND expires_at > NOW()
+              AND expires_at > (NOW() AT TIME ZONE 'America/Santo_Domingo')
             ORDER BY created_at DESC
             LIMIT 1
         `;
-        const { rows } = await query(queryText, [identifier, code]);
+        const { rows } = await query(queryText, [id, code]);
         if (rows.length === 0) return null;
         return rows[0] as OtpRecord;
     }
 
-    async markAsVerified(id: number): Promise<void> {
+    async markAsVerified(id: string): Promise<void> {
         const queryText = `
             UPDATE koneksi_autoenroll.otps
             SET verified = true

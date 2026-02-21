@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS koneksi_autoenroll.doctor_enrollment_requests (
     email VARCHAR(150),
     email_verified BOOLEAN DEFAULT FALSE,
     phone VARCHAR(30),
-    biometric_image TEXT,
+    biometric_image_url TEXT,
 
     -- Step 2: Team & Centers
     team_members JSONB DEFAULT '[]',
@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS koneksi_autoenroll.doctor_enrollment_requests (
     -- Step 3: ARS
     ars_providers JSONB DEFAULT '[]',
 
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT (NOW() AT TIME ZONE 'America/Santo_Domingo'),
+    updated_at TIMESTAMP DEFAULT (NOW() AT TIME ZONE 'America/Santo_Domingo'),
+    CONSTRAINT chk_status CHECK (status IN ('PENDING_CONFIRMATION', 'CONFIRMED', 'REJECTED'))
 );

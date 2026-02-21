@@ -26,11 +26,12 @@ export default function DoctorStep1() {
     const [email, setEmail] = useState("");
     const [isEmailVerified, setIsEmailVerified] = useState(false);
     const [showOtpModal, setShowOtpModal] = useState(false);
+    const [otpId, setOtpId] = useState<string | null>(null);
     const [isGeneratingOtp, setIsGeneratingOtp] = useState(false);
 
     // Biometric state
     const [isCameraOpen, setIsCameraOpen] = useState(false);
-    const [biometricImage, setBiometricImage] = useState<string | null>(null);
+    const [biometricImageUrl, setBiometricImageUrl] = useState<string | null>(null);
 
     // Simple regex for email structure
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -75,7 +76,7 @@ export default function DoctorStep1() {
                 if (parsed.email) setEmail(parsed.email);
                 if (parsed.isEmailVerified) setIsEmailVerified(parsed.isEmailVerified);
                 if (parsed.telefono) setTelefono(parsed.telefono);
-                if (parsed.biometricImage) setBiometricImage(parsed.biometricImage);
+                if (parsed.biometricImageUrl) setBiometricImageUrl(parsed.biometricImageUrl);
             } catch (err) {
                 console.error("Error parsing saved registration data", err);
             }
@@ -95,10 +96,10 @@ export default function DoctorStep1() {
             email,
             isEmailVerified,
             telefono,
-            biometricImage
+            biometricImageUrl
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
-    }, [cedula, nombreCompleto, exequatur, fechaRegistro, selectedSpecialties, email, isEmailVerified, telefono, biometricImage]);
+    }, [cedula, nombreCompleto, exequatur, fechaRegistro, selectedSpecialties, email, isEmailVerified, telefono, biometricImageUrl]);
 
     // Validation Check for the "Continuar" button
     const missingFields: string[] = [];
@@ -108,7 +109,7 @@ export default function DoctorStep1() {
     if (fechaRegistro.length === 0) missingFields.push("Fecha de Registro");
     if (selectedSpecialties.length === 0) missingFields.push("Especialidad Médica");
     if (!isEmailVerified) missingFields.push("Verificación de Correo (OTP)");
-    if (biometricImage === null) missingFields.push("Captura Biométrica");
+    if (biometricImageUrl === null) missingFields.push("Captura Biométrica");
 
     const isFormValid = missingFields.length === 0;
 
@@ -175,6 +176,23 @@ export default function DoctorStep1() {
 
     const handleValidar = async () => {
         if (!isValidCedula) return;
+
+        // Reset browser context (localStorage)
+        localStorage.removeItem('koneksi_registration_step2');
+        localStorage.removeItem('koneksi_team_members');
+        localStorage.removeItem('koneksi_selected_centers');
+        localStorage.removeItem('koneksi_ars_providers');
+
+        // Reset state variables (except the cedula we are validating)
+        setNombreCompleto("");
+        setExequatur("");
+        setFechaRegistro("");
+        setSelectedSpecialties([]);
+        setEmail("");
+        setIsEmailVerified(false);
+        setTelefono("");
+        setBiometricImageUrl(null);
+
         setIsLoading(true);
         setErrorMsg("");
 
@@ -218,6 +236,8 @@ export default function DoctorStep1() {
                 body: JSON.stringify({ identifier: email })
             });
             if (response.ok) {
+                const data = await response.json();
+                setOtpId(data.otpId);
                 setShowOtpModal(true);
             } else {
                 alert("Error al enviar código. Por favor intente más tarde.");
@@ -445,10 +465,10 @@ export default function DoctorStep1() {
                         </div>
 
                         <div className="border-2 border-dashed border-slate-200 rounded-xl p-10 flex flex-col items-center text-center">
-                            {biometricImage ? (
+                            {biometricImageUrl ? (
                                 <>
                                     <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-green-500 mb-4 shadow-lg relative">
-                                        <img src={biometricImage} alt="Biometría" className="w-full h-full object-cover" />
+                                        <img src={biometricImageUrl} alt="Biometría" className="w-full h-full object-cover" />
                                         <div className="absolute top-0 right-0 bg-green-500 rounded-full w-6 h-6 flex items-center justify-center border-2 border-white">
                                             <span className="material-symbols-outlined text-white text-[12px] font-bold">check</span>
                                         </div>
@@ -519,6 +539,7 @@ export default function DoctorStep1() {
             <OtpModal
                 isOpen={showOtpModal}
                 email={email}
+                otpId={otpId}
                 onClose={() => setShowOtpModal(false)}
                 onSuccess={() => setIsEmailVerified(true)}
                 expirationMinutes={5}
@@ -527,7 +548,7 @@ export default function DoctorStep1() {
             <CameraModal
                 isOpen={isCameraOpen}
                 onClose={() => setIsCameraOpen(false)}
-                onCapture={(img) => setBiometricImage(img)}
+                onCapture={(img) => setBiometricImageUrl(img)}
             />
         </div>
     );

@@ -14,10 +14,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     try {
         const otpService = new OtpService();
-        const success = await otpService.generateAndSendOtp(identifier);
+        const generatedOtpId = await otpService.generateAndSendOtp(identifier);
 
-        if (success) {
-            return res.status(200).json({ message: 'OTP enviado exitosamente' });
+        if (generatedOtpId) {
+            return res.status(200).json({ message: 'OTP enviado exitosamente', otpId: generatedOtpId });
         } else {
             return res.status(500).json({ error: 'Error al enviar OTP' });
         }

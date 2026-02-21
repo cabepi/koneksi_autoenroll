@@ -1,6 +1,13 @@
 import { Link } from 'react-router-dom';
 
 export default function Header() {
+    const clearRegistrationContext = () => {
+        localStorage.removeItem('koneksi_registration_step2');
+        localStorage.removeItem('koneksi_team_members');
+        localStorage.removeItem('koneksi_selected_centers');
+        localStorage.removeItem('koneksi_ars_providers');
+    };
+
     return (
         <>
             {/* Top Info Bar */}
@@ -30,7 +37,7 @@ export default function Header() {
             {/* Main Header */}
             <header className="bg-white shadow-sm sticky top-0 z-50">
                 <nav className="max-w-[1400px] mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
-                    <Link to="/" className="flex items-center gap-3">
+                    <Link to="/" onClick={clearRegistrationContext} className="flex items-center gap-3">
                         <div className="flex items-center">
                             <svg height="40" viewBox="0 0 100 60" width="40" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M30 15C15 15 15 45 30 45C38 45 42 38 50 30C58 22 62 15 70 15C85 15 85 45 70 45" fill="none" stroke="#6D4C91" strokeLinecap="round" strokeWidth="8"></path>
@@ -43,15 +50,15 @@ export default function Header() {
                         </div>
                     </Link>
                     <div className="hidden xl:flex items-center gap-8 font-semibold text-gray-700">
-                        <Link className="hover:text-brand-yellow transition-colors" to="/">Inicio</Link>
-                        <a className="hover:text-brand-yellow transition-colors" href="#">Nosotros</a>
-                        <a className="hover:text-brand-yellow transition-colors" href="#">Servicios</a>
-                        <a className="hover:text-brand-yellow transition-colors" href="#">Prestadores</a>
-                        <a className="hover:text-brand-yellow transition-colors" href="#">Contáctanos</a>
+                        <Link className="hover:text-brand-yellow transition-colors" to="/" onClick={clearRegistrationContext}>Inicio</Link>
+                        <a className="hover:text-brand-yellow transition-colors" href="#" onClick={clearRegistrationContext}>Nosotros</a>
+                        <a className="hover:text-brand-yellow transition-colors" href="#" onClick={clearRegistrationContext}>Servicios</a>
+                        <a className="hover:text-brand-yellow transition-colors" href="#" onClick={clearRegistrationContext}>Prestadores</a>
+                        <a className="hover:text-brand-yellow transition-colors" href="#" onClick={clearRegistrationContext}>Contáctanos</a>
                     </div>
                     <div className="flex items-center gap-4 sm:gap-6">
-                        <Link to="/login" className="hidden sm:block text-brand-yellow font-bold hover:underline cursor-pointer">Iniciar Sesión</Link>
-                        <Link to="/register" className="bg-brand-yellow text-white px-4 sm:px-8 py-2 rounded-md font-bold hover:bg-opacity-90 transition-all shadow-md text-sm sm:text-base">Registrarse</Link>
+                        <Link to="/login" onClick={clearRegistrationContext} className="hidden sm:block text-brand-yellow font-bold hover:underline cursor-pointer">Iniciar Sesión</Link>
+                        <Link to="/register" onClick={clearRegistrationContext} className="bg-brand-yellow text-white px-4 sm:px-8 py-2 rounded-md font-bold hover:bg-opacity-90 transition-all shadow-md text-sm sm:text-base">Registrarse</Link>
                     </div>
                 </nav>
             </header>
