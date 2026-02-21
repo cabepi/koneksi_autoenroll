@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #ec5b13;
+  --color-brand-purple: #472724;
+  --color-brand-purple-dark: #4A1D6E;
+  --color-brand-purple-light: #6D4C91;
+  --color-brand-yellow: #E5B02E;
+  --color-background-light: #f8f6f6;
+  --color-background-dark: #221610;
+  --color-accent-purple: #6b46c1;
+
+  --font-sans: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-display: 'Public Sans', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-background-light text-slate-900 min-h-screen transition-colors duration-300;
+  }
+}
+
+@layer utilities {
+  .custom-shadow {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .step-active {
+    border-bottom: 3px solid var(--color-primary);
+  }
+}

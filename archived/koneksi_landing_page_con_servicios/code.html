@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Koneksi - Red Digital de Atención Médica</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter for UI/Body, Playfair Display for Serifs -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandYellow: '#E5B02E',
+            brandPurple: '#6D4C91',
+            brandDarkPurple: '#4A1D6E',
+            brandGray: '#F3F4F6',
+            textMain: '#333333',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-typography">
+    .hero-title {
+      line-height: 1.1;
+    }
+  </style>
+</head>
+<body class="font-sans text-textMain">
+<!-- BEGIN: TopInfoBar -->
+<div class="bg-brandDarkPurple text-white py-2 px-4 md:px-8 lg:px-16 flex flex-col md:flex-row justify-between items-center text-xs">
+<!-- Contact Info -->
+<div class="flex flex-wrap justify-center md:justify-start gap-4 md:gap-8">
+<a class="flex items-center gap-1 hover:text-brandYellow transition-colors" href="mailto:servicio@koneksi.com.do">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+        servicio@koneksi.com.do
+      </a>
+<span class="flex items-center gap-1">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+        Torre Bolivar #195, Av. Simón Bolívar, Sto. Dgo., RD
+      </span>
+<a class="flex items-center gap-1 hover:text-brandYellow transition-colors" href="tel:+18092210080">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+        +1 (809) 221-0080
+      </a>
+</div>
+<!-- Social Media -->
+<div class="flex gap-4 mt-2 md:mt-0">
+<a class="hover:text-brandYellow transition-colors" href="#"><i class="fab fa-facebook-f text-sm"></i></a>
+<a class="hover:text-brandYellow transition-colors" href="#"><i class="fab fa-instagram text-sm"></i></a>
+<a class="hover:text-brandYellow transition-colors" href="#"><i class="fab fa-linkedin-in text-sm"></i></a>
+<a class="hover:text-brandYellow transition-colors" href="#"><i class="fab fa-twitter text-sm"></i></a>
+</div>
+</div>
+<!-- END: TopInfoBar -->
+<!-- BEGIN: MainHeader -->
+<header class="bg-white shadow-sm sticky top-0 z-50">
+<nav class="max-w-[1400px] mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+<!-- Logo and Brand -->
+<div class="flex items-center gap-3">
+<div class="flex items-center" data-purpose="brand-logo">
+<!-- Mock Logo Icon based on description -->
+<svg height="40" viewbox="0 0 100 60" width="40" xmlns="http://www.w3.org/2000/svg">
+<path d="M30 15C15 15 15 45 30 45C38 45 42 38 50 30C58 22 62 15 70 15C85 15 85 45 70 45" fill="none" stroke="#6D4C91" stroke-linecap="round" stroke-width="8"></path>
+<path d="M50 30C58 38 62 45 70 45" fill="none" stroke="#E5B02E" stroke-linecap="round" stroke-width="8"></path>
+</svg>
+<div class="flex flex-col ml-2">
+<span class="text-brandPurple font-bold text-2xl leading-none tracking-tight">koneksi</span>
+<span class="text-brandPurple text-[10px] uppercase font-semibold">Red Digital de Atención Médica</span>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="hidden lg:flex items-center gap-8 font-semibold text-gray-700">
+<a class="hover:text-brandYellow transition-colors" href="#">Inicio</a>
+<a class="hover:text-brandYellow transition-colors" href="#">Nosotros</a>
+<a class="hover:text-brandYellow transition-colors" href="#">Servicios</a>
+<a class="hover:text-brandYellow transition-colors" href="#">Prestadores</a>
+<a class="hover:text-brandYellow transition-colors" href="#">Contáctanos</a>
+</div>
+<!-- Auth Buttons -->
+<div class="flex items-center gap-6">
+<a class="hidden sm:block text-brandYellow font-bold hover:underline" href="#">Iniciar Sesión</a>
+<a class="bg-brandYellow text-white px-8 py-2 rounded-md font-bold hover:bg-opacity-90 transition-all shadow-md" href="#">Registrarse</a>
+</div>
+</nav>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: HeroSection -->
+<main class="relative bg-brandGray overflow-hidden min-h-[600px] flex items-center">
+<div class="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-16 w-full grid grid-cols-1 lg:grid-cols-12 items-center gap-12 py-16">
+<!-- Text Content -->
+<div class="lg:col-span-6 z-10" data-purpose="hero-content">
+<p class="text-brandYellow font-bold uppercase tracking-wider text-sm mb-6">Nuestro Propósito Principal</p>
+<h1 class="font-serif text-5xl md:text-7xl text-gray-800 mb-8 hero-title">
+          Conectar Toda La Red De Salud
+        </h1>
+<p class="text-gray-600 text-lg md:text-xl leading-relaxed mb-10 max-w-xl">
+          Es conectar a los profesionales médicos, proveedores de servicios de salud y las ARS/Aseguradoras a través de un conjunto de herramientas que permitan gestionar las autorizaciones médicas de forma digital.
+        </p>
+<a class="inline-block bg-brandYellow text-white px-10 py-3 rounded-md font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg" href="#">
+          Ver Más
+        </a>
+</div>
+<!-- Visual Element -->
+<div class="lg:col-span-6 flex justify-end items-center relative h-full min-h-[400px]" data-purpose="hero-image-container">
+<!-- Main Image from source -->
+<img alt="Hands holding a red heart" class="w-full h-auto object-cover rounded-2xl shadow-2xl" data-purpose="hero-main-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7CHUR4YKHLTatCfzOwZJlB8wa-ph2gxAFfVm_70tHs0_a7z5DJ8Yn2etAVPfxCCPM9f_Yt5Cr48RCJaQj4CRm28eUsO4yfy8TQpLXCRHnKrdy0MTwX7rjOo6ju0Ew1G7AZw7yedz2t16W0cHELy2O0AJLNMusWR2Cm1ogrZRP59kBAUWGPGzOEYa4z0OWZh3ztMDzkD7KqLC3Kl0UURVyGbzDq8IQFjJJuJJHDYzSTddDlZ38VLfk5Gq21YNyYa-b9faXXwG6F4g"/>
+<!-- Subtle Overlay or decorative element if needed to match the feel -->
+<div class="absolute inset-0 bg-gradient-to-r from-brandGray via-transparent to-transparent hidden lg:block"></div>
+</div>
+</div>
+</main><section class="py-20 bg-white">
+<div class="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-16">
+<!-- Section Header -->
+<div class="text-center mb-16">
+<p class="text-brandYellow font-bold uppercase tracking-wider text-sm mb-2">Bienvenidos a KONEKSI</p>
+<h2 class="font-serif text-4xl md:text-5xl text-gray-800 mb-4 font-bold">¡Queremos conectarnos contigo!</h2>
+<p class="text-gray-600 text-lg">y juntos formar la mayor red del Sector Salud en la República Dominicana.</p>
+</div>
+<!-- Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<!-- Left: Circular Graphic -->
+<div class="relative flex justify-center items-center h-[500px] w-full max-w-[500px] mx-auto" data-purpose="circular-graphic">
+<!-- Central Logo -->
+<div class="z-10 bg-white p-4 rounded-full shadow-sm">
+<div class="flex flex-col items-center">
+<svg height="50" viewbox="0 0 100 60" width="80" xmlns="http://www.w3.org/2000/svg">
+<path d="M30 15C15 15 15 45 30 45C38 45 42 38 50 30C58 22 62 15 70 15C85 15 85 45 70 45" fill="none" stroke="#6D4C91" stroke-linecap="round" stroke-width="8"></path>
+<path d="M50 30C58 38 62 45 70 45" fill="none" stroke="#E5B02E" stroke-linecap="round" stroke-width="8"></path>
+</svg>
+<span class="text-brandPurple font-bold text-xl leading-none tracking-tight">koneksi</span>
+<span class="text-brandPurple text-[8px] uppercase font-semibold text-center">Red Digital de Atención Médica</span>
+</div>
+</div>
+<!-- Circular Icons (Mocking the layout with absolute positioning) -->
+<div class="absolute w-full h-full">
+<!-- Top: Personal Medico -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center">
+<span class="text-[10px] font-bold text-gray-500 mb-1">Personal Médico</span>
+<div class="w-16 h-16 bg-brandPurple rounded-full flex items-center justify-center text-white shadow-lg">
+<i class="fas fa-user-md text-2xl"></i>
+</div>
+</div>
+<!-- Top Right: Aseguradoras -->
+<div class="absolute top-[10%] right-[10%] flex flex-col items-center">
+<span class="text-[10px] font-bold text-gray-500 mb-1">Aseguradoras</span>
+<div class="w-16 h-16 bg-brandYellow rounded-full flex items-center justify-center text-white shadow-lg">
+<i class="fas fa-building text-2xl"></i>
+</div>
+</div>
+<!-- Right: CAP-UNAP -->
+<div class="absolute top-1/2 right-0 -translate-y-1/2 flex flex-col items-center translate-x-1/2">
+<span class="text-[10px] font-bold text-gray-500 mb-1">CAP - UNAP</span>
+<div class="w-16 h-16 bg-brandPurple rounded-full flex items-center justify-center text-white shadow-lg">
+<i class="fas fa-hospital-alt text-2xl"></i>
+</div>
+</div>
+<!-- Bottom Right: Laboratorios -->
+<div class="absolute bottom-[10%] right-[10%] flex flex-col items-center">
+<span class="text-[10px] font-bold text-gray-500 mt-1 order-last">Laboratorios</span>
+<div class="w-16 h-16 bg-red-700 rounded-full flex items-center justify-center text-white shadow-lg">
+<i class="fas fa-flask text-2xl"></i>
+</div>
+</div>
+<!-- Bottom: Centros Diagnosticos -->
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center">
+<span class="text-[10px] font-bold text-gray-500 mt-1 order-last">Centros Diagnósticos</span>
+<div class="w-16 h-16 bg-brandYellow rounded-full flex items-center justify-center text-white shadow-lg">
+<i class="fas fa-heartbeat text-2xl"></i>
+</div>
+</div>
+<!-- Bottom Left: Pacientes -->
+<div class="absolute bottom-[10%] left-[10%] flex flex-col items-center">
+<span class="text-[10px] font-bold text-gray-500 mt-1 order-last">Pacientes</span>
+<div class="w-16 h-16 bg-brandPurple rounded-full flex items-center justify-center text-white shadow-lg">
+<i class="fas fa-users text-2xl"></i>
+</div>
+</div>
+<!-- Left: Farmacias -->
+<div class="absolute top-1/2 left-0 -translate-y-1/2 flex flex-col items-center -translate-x-1/2">
+<span class="text-[10px] font-bold text-gray-500 mb-1">Farmacias</span>
+<div class="w-16 h-16 bg-red-700 rounded-full flex items-center justify-center text-white shadow-lg">
+<i class="fas fa-pills text-2xl"></i>
+</div>
+</div>
+<!-- Top Left: Clinicas Hospitales -->
+<div class="absolute top-[10%] left-[10%] flex flex-col items-center">
+<span class="text-[10px] font-bold text-gray-500 mb-1">Clínicas Hospitales</span>
+<div class="w-16 h-16 bg-brandYellow rounded-full flex items-center justify-center text-white shadow-lg">
+<i class="fas fa-clinic-medical text-2xl"></i>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Text Content -->
+<div>
+<h3 class="font-serif text-4xl text-gray-800 mb-6 font-bold leading-tight">
+          Nuestra Meta Es Integrar Todo El Sistema de Salud
+        </h3>
+<p class="text-gray-600 text-lg leading-relaxed mb-8">
+          Nuestra pasión por la innovación y la tecnología nos llevó a desarrollar una red digital de atención médica que conecta a los profesionales médicos, proveedores de salud y las ARS Por vía de una plataforma digital que permite automatizar las operaciones de gestión médica, gestionar la validación de afiliación y autorización de reclamaciones, conectando de manera directa con las ARS, manteniendo un registro de las transacciones para ser radicadas electrónicamente.
+        </p>
+<a class="inline-block bg-brandYellow text-white px-10 py-3 rounded-md font-bold text-lg hover:bg-opacity-90 transition-all shadow-md" href="#">
+          Conocer Más
+        </a>
+</div>
+</div>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- FontAwesome for social icons -->
+<script crossorigin="anonymous" src="https://kit.fontawesome.com/6c0e6659f4.js"></script>
+<section class="py-20 bg-white">
+<div class="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-16">
+<!-- Section Header -->
+<div class="text-center mb-16">
+<p class="text-brandYellow font-bold uppercase tracking-wider text-sm mb-2">Servicios Principales</p>
+<h2 class="font-serif text-4xl md:text-5xl text-gray-800 font-bold mb-4">Algunos De Los Servicios Que Ofrecemos</h2>
+</div>
+<!-- Services Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Card 1: EHR -->
+<div class="border-2 border-dashed border-brandYellow/30 p-8 flex flex-col items-center text-center rounded-lg hover:shadow-xl transition-shadow">
+<div class="mb-6">
+<svg fill="none" height="60" stroke="#E5B02E" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="60">
+<rect height="14" rx="2" ry="2" width="18" x="3" y="4"></rect>
+<line x="7" x2="11" y="8" y2="8"></line>
+<line x="7" x2="10" y1="12" y2="12"></line>
+<path d="M14 8h3v4h-3z"></path>
+</svg>
+</div>
+<h3 class="font-serif text-2xl text-gray-800 mb-4 font-bold">EHR</h3>
+<p class="text-gray-600 mb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+<a class="text-gray-800 font-bold hover:text-brandYellow transition-colors" href="#">Read More</a>
+</div>
+<!-- Card 2: Autorizaciones Médicas -->
+<div class="border-2 border-dashed border-brandYellow/30 p-8 flex flex-col items-center text-center rounded-lg hover:shadow-xl transition-shadow">
+<div class="mb-6">
+<svg fill="none" height="60" stroke="#E5B02E" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="60">
+<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+<polyline points="14 2 14 8 20 8"></polyline>
+<line x1="16" x2="8" y1="13" y2="13"></line>
+<line x1="16" x2="8" y1="17" y2="17"></line>
+<polyline points="10 9 9 9 8 9"></polyline>
+</svg>
+</div>
+<h3 class="font-serif text-2xl text-gray-800 mb-4 font-bold">Autorizaciones Médicas</h3>
+<p class="text-gray-600 mb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+<a class="text-gray-800 font-bold hover:text-brandYellow transition-colors" href="#">Read More</a>
+</div>
+<!-- Card 3: Validación Biométrica -->
+<div class="border-2 border-dashed border-brandYellow/30 p-8 flex flex-col items-center text-center rounded-lg hover:shadow-xl transition-shadow">
+<div class="mb-6">
+<svg fill="none" height="60" stroke="#E5B02E" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="60">
+<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+<circle cx="12" cy="12" r="3"></circle>
+<path d="M12 5V3"></path>
+<path d="M12 21v-2"></path>
+<path d="m18.35 18.35 1.45 1.45"></path>
+<path d="m4.2 4.2 1.45 1.45"></path>
+<path d="M21 12h-2"></path>
+<path d="M5 12H3"></path>
+<path d="m18.35 5.65 1.45-1.45"></path>
+<path d="m4.2 19.8 1.45-1.45"></path>
+</svg>
+</div>
+<h3 class="font-serif text-2xl text-gray-800 mb-4 font-bold">Validación Biométrica</h3>
+<p class="text-gray-600 mb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+<a class="text-gray-800 font-bold hover:text-brandYellow transition-colors" href="#">Read More</a>
+</div>
+</div>
+</div>
+</section></body></html>

@@ -1,0 +1,148 @@
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('allergy-and-immunology','Alergología E Inmunología Clínica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-allergy-and-immunology','Alergología E Inmunología Pediátrica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('algology','Algología',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('andrology','Andrología',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('anesthesiology','Anestesiología',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('angiología','Angiología',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('angiología-vascular-surgery','Angiología Y Cirugía Vascular',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('primary-care','Atención Primaria',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('audiology','Audiología',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('audiology-phoniatry','Audiología Y Foniatría',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('cardiology','Cardiología',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('cardiac-electrophysiology','Cardiología Electrofisiología',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('cardiovascular-intervention','Cardiología Intervencionista',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-cardiology','Cardiología Pediátrica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('orthopaedic-surgery','Cirugía Artroscópica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('bariatric-surgery','Cirugía Bariátrica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('biliary-surgery','Cirugía Biliar',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('cardiothoracic-vascular-surgery','Cirugía Cardio Torácica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('head-neck-surgery','Cirugía De Cabeza Y Cuello',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('spine-surgery','Cirugía De Columna ',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('breast-surgery','Cirugía De Mama',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('hand-surgery','Cirugía De Mano',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('oral-and-dental-surgery','Cirugía Dental',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('knee-surgery','Cirugía De Rodilla',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('digestive-surgery','Cirugía Digestiva',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('endoscopic-surgery','Cirugía Endoscópica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('general-surgery','Cirugía General',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('laparoscopic-surgery','Cirugía Laparoscópica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('oral-and-maxillofacial-surgery','Cirugía Maxilofacial',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('ophthalmologic-surgery','Cirugía oftalmológica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('surgical-oncology','Cirugía Oncológica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-surgery','Cirugía Pediátrica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('plastic-surgery','Cirugía Plástica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('plastic-and-reconstructive-surgery','Cirugía Reconstructiva',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('adult-reconstructive-orthopaedic-surgery','Cirugía Reconstructiva De Pelvis ',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('vascular-surgery','Cirugía Vascular',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('colposcopy','Colposcopia',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('dermatology','Dermatología',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('dermapathology','Dermatología Oncológica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-dermatology','Dermatología Pediátrica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('procedural-dermatology','Dermatología Quirúrgica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('endocrinology','Endocrinología',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-endocrinology','Endocrinología Pediátrica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('reproductive-endocrinology','Endocrinología Reproductiva E Infertilidad',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('endodontics','Endodoncia',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('gastroendoscopy','Endoscopia Gastrointestinal',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-endoscopy','Endoscopia Pediátrica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('endoscopy','Endoscopia  ',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('unknown-specialty','Especialidad Desconocida',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('physical-therapy','Fisioterapia',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('physical-medicine-and-rehabilitation','Fisioterapia Y Rehabilitación',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('phoniatry','Foniatría',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('gastroenterology','Gastroenterología',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-gastroenterology','Gastroenterología Pediátrica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('gastroenterology-surgery','Gastroenterología Quirúrgica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('gastroenterologist','Gastroenterólogo',true,'2019-09-26 18:49:09.299257-04','estuardo@osigu.com',NULL,''),
+  ('perinatology','Medicina Materno Fetal',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('nuclear-medicine-radiology','Medicina Nuclear',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('palliative-medicine','Medicina Paliativa',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('general-practitioner','Médico General',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('menopause','Menopausia',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('nephrology','Nefrología',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-nephrology','Nefrología Pediátrica',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('neonatal-perinatal-medicine','Neonatología',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pulmonology','Neumología',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-pulmonology','Neumología Pediátrica',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('neurological-surgery','Neurocirugía',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('neurological-pediatric-surgery','Neurocirugía Pediátrica',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('neurophysiology','Neurofisiología',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('neurology','Neurología',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('pediatric-neurology','Neurología Pediátrica',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('neurology-neurological-surgery','Neurología Y Neurocirugía',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('nutrition','Nutrición',true,'2019-09-26 18:49:55.354706-04','luis.lopez@osigu.com',NULL,NULL),
+  ('obstetrics','Obstetrics',true,'2019-09-26 18:49:55.354706-04','administrator',NULL,NULL),
+  ('example-qa','Cirugia Vascular',true,'2019-09-26 18:57:30.406641-04','walter@osigu.com',NULL,NULL),
+  ('clinic-pshycology','Psicología Clínica',true,'2019-09-26 18:49:09.299257-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-hematology','Hematología Pediátrica',true,'2021-11-16 20:58:37.541041-04','nelson@osigu.com',NULL,NULL),
+  ('nutriology','Nutriología',true,'2021-11-16 19:39:54.389-04','nelson@osigu.com',NULL,NULL),
+  ('medical-genetics','Genética',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('geriatric-medicine','Geriatría',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('gynecologic-oncology','Ginecología Oncológica',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('obstetrics-and-gynecology','Ginecología Y Obstetricia',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('hematology-oncology','Hemato-Oncología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-hematology-oncology','Hemato-Oncología Pediátrica',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('hepatology','Hepatología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('homeopathy','Homeopatía',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('infectious-disease','Infectología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-infectious-diseases','Infectología Pediátrica',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('critical-care-medicine','Intensivista',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-critical-care-medicine','Intensivista Pediátrica',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('critical-intensive-care-medicine','Medicina Critica Y Terapia Intensiva',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('critical-intensive-care-pediatric-medicine','Medicina Critica Y Terapia Intensiva Pediátrica',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pain-medicine','Medicina Del Dolor',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('occupational-medicine','Medicina Del Trabajo',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('sports-medicine','Medicina Deportiva',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('family-medicine','Medicina Familiar',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('general-practice','Medicina General',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('homecare-medicine','Medicina General Consulta A Domicilio',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('integrative-medicine','Medicina Integrada',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('intensive-care-medicine','Medicina Intensivista',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('internal-medicine','Medicina Interna',true,'2019-09-26 18:57:30.406641-04','administrator',NULL,NULL),
+  ('oculoplastics','Oculoplastica Y Vía Lagrimal',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('general-dentist','Odontología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-dentist','Odontología pediátrica',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-dentistry','Odontopediatria',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('ophthalmology','Oftalmología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-ophthalmology','Oftalmología Pediátrica',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('oncology','Oncología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatric-oncology','Oncología Pediátrica',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('orthodontics','Ortodoncia',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('orthodontics and dentofacil orthopedics','Ortodoncia (Ortopedia maxilofacial)',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('otoneurology','Otoneurología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('otolaryngology','Otorrinolaringología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pathology','Patología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pediatrics','Pediatría',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('periodontics','Periodoncia',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('podiatry-podology','Podiatría',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('proctology','Proctología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('prosthodontics','Prótesis dental (bucal)',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('pshycology','Psicología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('psychiatry','Psiquiatría',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('biochemestry','Química Biológica',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('chiropractic','Quiropráctico',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('diagnostic-radiology','Radiología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('radiology-vascular-and-interventional-radiology','Radiología Intervencionista',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('radiation-oncology','Radioterapia',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('rheumatology','Reumatología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('neurologic-endovascular-therapy','Terapia Endovascular Neurológica',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('orthopaedic-trauma','Traumatología Y Ortopedia',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('emergency-medicine','Urgencias Medicas',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL);
+INSERT INTO koneksi_autoenroll.medical_specialties (slug,fallback_name,enabled,created_at,created_by,updated_at,updated_by) VALUES
+  ('urology','Urología',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('urogynecology','Urología Ginecológica',true,'2019-09-26 18:57:30.406641-04','luis.lopez@osigu.com',NULL,NULL),
+  ('cardiovascular-rehabilitator','Rehabilitador Cardiovascular',true,'2021-11-17 12:32:37.659355-04','walter@osigu.com',NULL,NULL),
+  ('diabetology','Diabetologia',true,'2025-07-14 10:27:50.018048-04','ralmanzar@unipago.com.do',NULL,NULL);

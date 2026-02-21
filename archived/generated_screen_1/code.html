@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login - Koneksi</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for better typography match -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="base-typography">
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+<style data-purpose="custom-colors">
+    /* Custom brand colors based on the image */
+    :root {
+      --brand-purple: #6b3595;
+      --brand-purple-hover: #5a2d7d;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --bg-light: #f8fafc;
+    }
+    .bg-brand-purple { background-color: var(--brand-purple); }
+    .text-brand-purple { color: var(--brand-purple); }
+    .border-brand-purple { border-color: var(--brand-purple); }
+  </style>
+</head>
+<body class="bg-[#f3f4f6] min-h-screen flex flex-col items-center justify-center p-4">
+<!-- BEGIN: MainContent -->
+<main class="w-full max-w-md flex flex-col items-center">
+<!-- BEGIN: LogoHeader -->
+<header class="mb-8" data-purpose="brand-identity">
+<img alt="Koneksi Logo" class="h-16 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-nQFwqOkOsV4bE2w8k51X6bcxJ5WKtihATF2AG1gDZVQv7iJ7frZQFP6hAUONSKRyen2QPpyQQ3qRHfYPGjw6IMXheqgSDGV_7gUXB9_WuwuFK3s-Zk2y7-5Z7uQtnRAz0Rt4PhiFUOboGIKJSwN0Z9zPyb-aCIg70Ygpy7YpFIEXz55VYJ8Cxb4XTddM8Rq_4RPd5mMhkmgGJ7oo2iV57__Y6iRbKnQlXv0iOwE8knQzYcVx1IQpnbD5qCky_JLpN4NucODafUo"/>
+</header>
+<!-- END: LogoHeader -->
+<!-- BEGIN: LoginCard -->
+<section class="bg-white w-full rounded-[2.5rem] shadow-sm p-8 md:p-12 mb-8" data-purpose="login-form-container">
+<!-- Welcome Text -->
+<div class="mb-8">
+<h1 class="text-[2rem] font-bold text-[#1a1c2d] mb-2 leading-tight">Bienvenido de nuevo</h1>
+<p class="text-[#718096] text-lg">Ingresa tus credenciales para acceder a tu cuenta.</p>
+</div>
+<!-- Login Form -->
+<form action="#" class="space-y-6" method="POST">
+<!-- Email Field -->
+<div data-purpose="form-group">
+<label class="block text-[#4a5568] font-semibold mb-2 ml-1" for="email">Correo electrónico</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<!-- Mail Icon -->
+<svg class="h-5 w-5 text-[#94a3b8]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="block w-full pl-11 pr-4 py-4 bg-[#f8fafc] border border-[#e2e8f0] rounded-2xl focus:ring-2 focus:ring-brand-purple focus:border-transparent transition-all placeholder-[#94a3b8]" id="email" name="email" placeholder="ejemplo@koneksi.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div data-purpose="form-group">
+<label class="block text-[#4a5568] font-semibold mb-2 ml-1" for="password">Contraseña</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<!-- Lock Icon -->
+<svg class="h-5 w-5 text-[#94a3b8]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="block w-full pl-11 pr-12 py-4 bg-[#f8fafc] border border-[#e2e8f0] rounded-2xl focus:ring-2 focus:ring-brand-purple focus:border-transparent transition-all" id="password" name="password" type="password" value="password123"/>
+<div class="absolute inset-y-0 right-0 pr-4 flex items-center cursor-pointer">
+<!-- Eye Icon -->
+<svg class="h-5 w-5 text-[#94a3b8]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<!-- Forgot Password Link -->
+<div class="text-right mt-3">
+<a class="text-brand-purple font-semibold hover:underline text-sm" href="#">¿Olvidaste tu contraseña?</a>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-brand-purple hover:bg-brand-purple-hover text-white font-bold py-4 rounded-2xl shadow-[0_10px_20px_-5px_rgba(107,53,149,0.3)] flex items-center justify-center gap-2 transition-all transform active:scale-[0.98]" type="submit">
+          Iniciar sesión
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</form>
+<!-- Separator -->
+<div class="relative my-10 flex items-center" data-purpose="separator">
+<div class="flex-grow border-t border-[#e2e8f0]"></div>
+<span class="flex-shrink mx-4 text-[#94a3b8] text-sm">O también</span>
+<div class="flex-grow border-t border-[#e2e8f0]"></div>
+</div>
+<!-- Registration Footer -->
+<div class="text-center">
+<p class="text-[#4a5568]">
+          ¿No tienes una cuenta? 
+          <a class="text-brand-purple font-bold hover:underline ml-1" href="#">Regístrate ahora</a>
+</p>
+</div>
+</section>
+<!-- END: LoginCard -->
+<!-- BEGIN: CopyrightFooter -->
+<footer class="text-center" data-purpose="page-footer">
+<p class="text-[#94a3b8] text-xs">
+        Copyright © 2024 UNIPAGO, SA. All rights reserved.
+      </p>
+</footer>
+<!-- END: CopyrightFooter -->
+</main>
+<!-- END: MainContent -->
+</body></html>

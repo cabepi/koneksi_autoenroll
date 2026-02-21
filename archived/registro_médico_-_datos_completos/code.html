@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Koneksi - Registro de Datos Profesionales</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                        "brand-purple": "#472724",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+        .step-active {
+            border-bottom: 3px solid #ec5b13;
+        }
+        .custom-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-slate-900 dark:text-slate-100">
+<div class="flex flex-col min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="w-full">
+<!-- Top Contact Bar -->
+<div class="bg-[#472724] text-white py-2 px-4 md:px-20 lg:px-40 flex flex-wrap justify-between items-center text-xs gap-2">
+<div class="flex items-center gap-4 flex-wrap">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+<span>servicio@koneksi.com.do</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>Torre Bolivar #195, Av. Simón Bolívar, Sto. Dgo., RD</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">call</span>
+<span>+1 (809) 221-0080</span>
+</div>
+</div>
+<!-- Main Navigation Bar -->
+<nav class="bg-white border-b border-slate-100 px-4 md:px-20 lg:px-40 py-4 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-2">
+<svg class="w-8 h-8 text-[#472724]" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<div class="flex flex-col leading-tight">
+<span class="text-[#472724] text-xl font-bold tracking-tight">koneksi</span>
+<span class="text-[#472724] text-[8px] uppercase font-semibold">Red Digital de Atención Médica</span>
+</div>
+</div>
+</div>
+<div class="hidden lg:flex items-center gap-8">
+<a class="text-slate-700 font-semibold hover:text-primary transition-colors" href="#">Inicio</a>
+<a class="text-slate-700 font-semibold hover:text-primary transition-colors" href="#">Nosotros</a>
+<a class="text-slate-700 font-semibold hover:text-primary transition-colors" href="#">Servicios</a>
+<a class="text-slate-700 font-semibold hover:text-primary transition-colors" href="#">Prestadores</a>
+<a class="text-slate-700 font-semibold hover:text-primary transition-colors" href="#">Contáctanos</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#e6b333] font-bold hover:opacity-80 transition-opacity">Iniciar Sesión</button>
+<button class="bg-[#e6b333] text-white px-6 py-2 rounded-lg font-bold hover:opacity-90 transition-opacity shadow-sm">Registrarse</button>
+</div>
+</nav>
+</header>
+<!-- Stepper Container -->
+<nav class="bg-brand-purple border-b border-white/10 px-4 md:px-20 lg:px-40">
+<div class="flex flex-wrap justify-between max-w-5xl mx-auto">
+<a class="flex-1 py-4 text-center step-active" href="#">
+<span class="text-white text-xs md:text-sm font-bold block">1. DATOS PROFESIONALES</span>
+</a>
+<a class="flex-1 py-4 text-center opacity-50" href="#">
+<span class="text-white/70 text-xs md:text-sm font-bold block">2. EQUIPO MÉDICO</span>
+</a>
+<a class="flex-1 py-4 text-center opacity-50" href="#">
+<span class="text-white/70 text-xs md:text-sm font-bold block">3. ASEGURADORAS</span>
+</a>
+<a class="flex-1 py-4 text-center opacity-50" href="#">
+<span class="text-white/70 text-xs md:text-sm font-bold block">4. RESUMEN</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow px-4 md:px-20 lg:px-40 py-10">
+<div class="max-w-4xl mx-auto">
+<!-- Page Title & Intro -->
+<div class="mb-8">
+<h1 class="text-slate-900 dark:text-white text-4xl font-bold mb-3">Datos Profesionales</h1>
+<p class="text-slate-600 dark:text-slate-300 text-lg">
+                        Por favor, proporcione su identificación médica y detalles de contacto verificados para continuar con su verificación.
+                    </p>
+</div>
+<!-- Form Card -->
+<div class="bg-white dark:bg-slate-800/50 rounded-xl custom-shadow border border-slate-200 dark:border-slate-700 p-6 md:p-8">
+<!-- Section Header -->
+<div class="flex items-center gap-2 mb-8 border-b border-slate-100 dark:border-slate-700 pb-4">
+<span class="material-symbols-outlined text-primary text-2xl">badge</span>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">Información Profesional</h2>
+</div>
+<!-- Form Fields -->
+<div class="space-y-6">
+<!-- Cédula & Validar -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Número de Cédula</label>
+<div class="flex gap-2">
+<div class="relative flex-grow">
+<input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" type="text" value="001-1602120-5"/>
+</div>
+<button class="bg-brand-purple hover:bg-brand-purple/90 text-white font-bold py-3 px-6 rounded-lg transition-all flex items-center gap-2">
+                                    Validar
+                                </button>
+</div>
+</div>
+<!-- Full Name (Read Only) -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Nombre Completo</label>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-lg py-3 px-4 cursor-not-allowed" disabled="" readonly="" type="text" value="RAMON ELIAS RODRIGUEZ DE LA ROSA"/>
+</div>
+<!-- Specialties Chips -->
+<div class="flex flex-col gap-3">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Especialidad</label>
+<div class="flex flex-wrap gap-2 mb-2">
+<span class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+                                    Primaria: Ortopediatría
+                                    <span class="material-symbols-outlined text-xs cursor-pointer">close</span>
+</span>
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+                                    Radiología
+                                    <span class="material-symbols-outlined text-xs cursor-pointer">close</span>
+</span>
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+                                    Medicina Interna
+                                    <span class="material-symbols-outlined text-xs cursor-pointer">close</span>
+</span>
+</div>
+<div class="relative">
+<select class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none appearance-none">
+<option disabled="" selected="" value="">Agregar otra especialidad...</option>
+<option>Cardiología</option>
+<option>Dermatología</option>
+<option>Neurología</option>
+</select>
+<div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Two Column Row: License & Date -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Exequátur (Licencia Médica)</label>
+<input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" type="text" value="EXE-123456"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Fecha de Registro</label>
+<div class="relative">
+<input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" type="text" value="2015"/>
+<div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">calendar_month</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+</div><!-- Comunicación Section -->
+<div class="bg-white dark:bg-slate-800/50 rounded-xl custom-shadow border border-slate-200 dark:border-slate-700 p-6 md:p-8 mt-6">
+<!-- Section Header -->
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-[#e6b333] text-2xl">chat_bubble</span>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">Comunicación</h2>
+</div>
+<!-- Alert Box -->
+<div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4 mb-8 flex items-start gap-3">
+<span class="material-symbols-outlined text-purple-600 dark:text-purple-400 mt-0.5">verified_user</span>
+<p class="text-sm text-purple-800 dark:text-purple-300 leading-relaxed">
+            La verificación de <span class="font-bold">correo electrónico</span> es obligatoria para continuar. La verificación telefónica es opcional pero <span class="font-bold">recomendada</span>.
+        </p>
+</div>
+<!-- Email Field -->
+<div class="flex flex-col gap-2 mb-6">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Correo Electrónico</label>
+<div class="flex gap-2">
+<input class="flex-grow bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg py-3 px-4 focus:ring-2 focus:ring-[#e6b333] focus:border-transparent transition-all outline-none" type="email" value="ramon_rodriguez@outlook.com"/>
+<button class="bg-[#e6b333] hover:opacity-90 text-white font-bold py-3 px-8 rounded-lg transition-all">
+                Verificar
+            </button>
+</div>
+</div>
+<!-- Phone Field -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Número de Teléfono</label>
+<div class="flex gap-2">
+<div class="flex border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden flex-grow">
+<div class="bg-slate-50 dark:bg-slate-800 px-4 py-3 border-r border-slate-300 dark:border-slate-600 text-slate-500">+1</div>
+<input class="w-full bg-slate-50 dark:bg-slate-900 border-none py-3 px-4 focus:ring-0 outline-none" placeholder="(809) 000-0000" type="tel"/>
+</div>
+<button class="border border-[#e6b333] text-[#e6b333] font-bold py-3 px-6 rounded-lg hover:bg-[#e6b333]/5 transition-all whitespace-nowrap">
+                Verificar (Opcional)
+            </button>
+</div>
+</div>
+</div>
+<!-- Verificación Biométrica Section -->
+<div class="bg-white dark:bg-slate-800/50 rounded-xl custom-shadow border border-slate-200 dark:border-slate-700 p-6 md:p-8 mt-6 mb-10">
+<!-- Section Header -->
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-[#e6b333] text-2xl">person_pin_circle</span>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">Verificación Biométrica</h2>
+</div>
+<!-- Dash Box -->
+<div class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-10 flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-[#e6b333]/10 rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[#e6b333] text-3xl">photo_camera</span>
+</div>
+<h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Reconocimiento Facial Biométrico</h3>
+<p class="text-slate-400 text-sm max-w-md mb-8">
+            Este paso es obligatorio para todos los prestadores médicos. Asegúrate de estar en un área bien iluminada y que tu rostro sea completamente visible.
+        </p>
+<button class="bg-[#e6b333] hover:opacity-90 text-white font-bold py-3 px-10 rounded-lg transition-all shadow-md mb-6">
+            Iniciar Escaneo Facial
+        </button>
+<div class="flex items-center gap-2 text-slate-400 text-[10px] uppercase font-bold tracking-wider">
+<span class="material-symbols-outlined text-sm">verified_user</span>
+            PROCESAMIENTO SEGURO DE DATOS BIOMÉTRICOS
+        </div>
+</div>
+</div>
+<!-- Footer Action Buttons -->
+<div class="flex items-center justify-between mt-10">
+<button class="flex items-center gap-2 text-[#472724] font-bold hover:underline">
+<span class="material-symbols-outlined">arrow_back</span>
+        Volver
+    </button>
+<button class="bg-[#f5f0e6] text-[#472724]/40 px-10 py-4 rounded-xl font-bold flex items-center gap-4 cursor-not-allowed">
+        Continuar
+        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Footer Copyright -->
+</div>
+</main>
+</div>
+</body></html>
