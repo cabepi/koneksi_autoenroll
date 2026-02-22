@@ -10,6 +10,7 @@ import DoctorStep4 from './pages/DoctorStep4.js';
 import EnrollmentSuccess from './pages/EnrollmentSuccess.js';
 import Dashboard from './pages/Dashboard.js';
 import CentroEnConstruccion from './pages/CentroEnConstruccion.js';
+import { EnrollmentStatus } from './pages/EnrollmentStatus.js';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const { isAuthenticated } = useAuth();
@@ -29,6 +30,9 @@ function App() {
                 <Route path="/register/doctor-step-4" element={<DoctorStep4 />} />
                 <Route path="/register/enrollment-success" element={<EnrollmentSuccess />} />
                 <Route path="/register/centro-construccion" element={<CentroEnConstruccion />} />
+
+                {/* Tracking Route */}
+                <Route path="/doctor-enrollment-status/:id" element={<EnrollmentStatus />} />
 
                 {/* Protected Routes */}
                 <Route path="/dashboard" element={

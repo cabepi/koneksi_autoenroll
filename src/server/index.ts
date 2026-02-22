@@ -15,6 +15,7 @@ import teamRolesHandler from '../../api/team-roles.js';
 import medicalCentersHandler from '../../api/medical-centers.js';
 import healthInsurancesHandler from '../../api/health-insurances.js';
 import enrollmentRequestsHandler from '../../api/enrollment-requests.js';
+import enrollmentStatusHandler from '../../api/enrollment-requests-status.js';
 import termsHandler from '../../api/terms.js';
 
 dotenv.config();
@@ -86,6 +87,12 @@ app.get('/api/terms', async (req, res) => {
 
 app.post('/api/enrollment-requests', jsonParser, async (req, res) => {
     await enrollmentRequestsHandler(req as any, res as any);
+});
+
+app.get('/api/enrollment-requests/:id', async (req, res) => {
+    // Express parameters are in req.params, but our Vercel function expects req.query.id
+    req.query.id = req.params.id;
+    await enrollmentStatusHandler(req as any, res as any);
 });
 
 // Since the Unipago proxy could be handled via the middleware directly for local dev (more efficient),

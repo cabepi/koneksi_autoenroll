@@ -77,4 +77,37 @@ export class EnrollmentRequestRepository {
             client.release();
         }
     }
+
+    async getEnrollmentRequestById(id: string): Promise<any | null> {
+        const client = await this.pool.connect();
+        try {
+            // Fetch the main request details along with its latest status from the history table
+            const query = `
+                SELECT 
+                    r.id,
+                    r.identification_number,
+                    r.full_name,
+                    r.email,
+                    r.phone,
+                    r.specialties,
+                    r.team_members,
+                    r.medical_centers,
+                    r.ars_providers,
+                    r.created_at,
+                    (
+                        SELECT status 
+                        FROM koneksi_autoenroll.enrollment_request_status_history h 
+                        WHERE h.request_id = r.id 
+                        ORDER BY changed_at DESC 
+                        LIMIT 1
+                    ) as current_status
+                FROM koneksi_autoenroll.doctor_enrollment_requests r
+                WHERE r.id = $1
+            `;
+            const result = await client.query(query, [id]);
+            return result.rows.length > 0 ? result.rows[0] : null;
+        } finally {
+            client.release();
+        }
+    }
 }

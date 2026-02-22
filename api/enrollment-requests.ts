@@ -1,6 +1,7 @@
 import { Pool } from 'pg';
 import { EnrollmentRequestRepository } from '../src/data/repositories/EnrollmentRequestRepository.js';
 import { put } from '@vercel/blob';
+import { NotificationService } from '../src/services/NotificationService.js';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -8,6 +9,7 @@ const pool = new Pool({
 });
 
 const repository = new EnrollmentRequestRepository(pool);
+const notificationService = new NotificationService();
 
 export default async function handler(req: any, res: any) {
     if (req.method !== 'POST') {
@@ -63,6 +65,17 @@ export default async function handler(req: any, res: any) {
 
         // 4. Insert initial status history record
         await repository.insertStatusHistory(id, 'PENDING_CONFIRMATION', body.email);
+
+        // 5. Send Success Email
+        try {
+            const frontendUrl = process.env.VITE_APP_URL || 'http://localhost:5173';
+            const fullName = `${body.firstName} ${body.lastName}`.trim();
+            const emailHtml = notificationService.getEnrollmentSuccessEmailTemplate(fullName, id, frontendUrl);
+            await notificationService.sendEmail(body.email, '¡Solicitud de Enrolamiento Recibida! - Koneksi', emailHtml);
+        } catch (emailError) {
+            console.error('Error sending success email:', emailError);
+            // We do not fail the request if the email fails, we just log it
+        }
 
         return res.status(201).json({ id, status: 'PENDING_CONFIRMATION' });
     } catch (error: any) {
