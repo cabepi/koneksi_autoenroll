@@ -22,12 +22,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
-        const storedUser = localStorage.getItem('user');
-        if (storedToken && storedUser) {
-            setToken(storedToken);
-            setUser(JSON.parse(storedUser));
-        }
+        const checkToken = () => {
+            const storedToken = localStorage.getItem('token');
+            const storedUser = localStorage.getItem('user');
+            if (storedToken && storedUser) {
+                try {
+                    const payload = JSON.parse(atob(storedToken.split('.')[1]));
+                    if (payload.exp * 1000 < Date.now()) {
+                        // Expired
+                        logout();
+                    } else {
+                        setToken(storedToken);
+                        setUser(JSON.parse(storedUser));
+                    }
+                } catch (e) {
+                    logout();
+                }
+            }
+        };
+        checkToken();
+        const interval = setInterval(checkToken, 60000); // Check every minute
+        return () => clearInterval(interval);
     }, []);
 
     const login = (newToken: string, newUser: User) => {
@@ -42,6 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        window.location.href = '/';
     };
 
     return (

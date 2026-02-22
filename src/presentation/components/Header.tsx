@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import LoginModal from './LoginModal.js';
 
 export default function Header() {
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
     const clearRegistrationContext = () => {
         localStorage.removeItem('koneksi_registration_step2');
         localStorage.removeItem('koneksi_team_members');
@@ -17,7 +21,7 @@ export default function Header() {
                         <span className="material-symbols-outlined text-[16px]">mail</span>
                         servicio@koneksi.com.do
                     </a>
-                    <span className="flex items-center gap-1 hidden sm:flex">
+                    <span className="hidden sm:flex items-center gap-1 text-white">
                         <span className="material-symbols-outlined text-[16px]">location_on</span>
                         Torre Bolivar #195, Av. Simón Bolívar, Sto. Dgo., RD
                     </span>
@@ -57,11 +61,16 @@ export default function Header() {
                         <a className="hover:text-brand-yellow transition-colors" href="#" onClick={clearRegistrationContext}>Contáctanos</a>
                     </div>
                     <div className="flex items-center gap-4 sm:gap-6">
-                        <Link to="/login" onClick={clearRegistrationContext} className="hidden sm:block text-brand-yellow font-bold hover:underline cursor-pointer">Iniciar Sesión</Link>
+                        <button onClick={() => { clearRegistrationContext(); setIsLoginModalOpen(true); }} className="hidden sm:block text-brand-yellow font-bold hover:underline cursor-pointer">Iniciar Sesión</button>
                         <Link to="/register" onClick={clearRegistrationContext} className="bg-brand-yellow text-white px-4 sm:px-8 py-2 rounded-md font-bold hover:bg-opacity-90 transition-all shadow-md text-sm sm:text-base">Registrarse</Link>
                     </div>
                 </nav>
             </header>
+
+            <LoginModal
+                isOpen={isLoginModalOpen}
+                onClose={() => setIsLoginModalOpen(false)}
+            />
         </>
     );
 }

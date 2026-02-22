@@ -17,6 +17,10 @@ import healthInsurancesHandler from '../../api/health-insurances.js';
 import enrollmentRequestsHandler from '../../api/enrollment-requests.js';
 import enrollmentStatusHandler from '../../api/enrollment-requests-status.js';
 import termsHandler from '../../api/terms.js';
+import authGenerateHandler from '../../api/auth/generate-otp.js';
+import authValidateHandler from '../../api/auth/validate-otp.js';
+import backofficeRequestsHandler from '../../api/backoffice/requests.js';
+import backofficeRequestsDetailHandler from '../../api/backoffice/requests/[id].js';
 
 dotenv.config();
 
@@ -69,6 +73,14 @@ app.post('/api/otp/validate', jsonParser, async (req, res) => {
     await otpValidateHandler(req as any, res as any);
 });
 
+app.post('/api/auth/generate-otp', jsonParser, async (req, res) => {
+    await authGenerateHandler(req as any, res as any);
+});
+
+app.post('/api/auth/validate-otp', jsonParser, async (req, res) => {
+    await authValidateHandler(req as any, res as any);
+});
+
 app.get('/api/team-roles', async (req, res) => {
     await teamRolesHandler(req as any, res as any);
 });
@@ -93,6 +105,17 @@ app.get('/api/enrollment-requests/:id', async (req, res) => {
     // Express parameters are in req.params, but our Vercel function expects req.query.id
     req.query.id = req.params.id;
     await enrollmentStatusHandler(req as any, res as any);
+});
+
+app.get('/api/backoffice/requests', async (req, res) => {
+    // We already have authenticate logic via `requireAuth` middleware available locally!
+    // But since the serverless function performs its own JWT extraction from headers, we'll let it handle it.
+    await backofficeRequestsHandler(req as any, res as any);
+});
+
+app.get('/api/backoffice/requests/:id', async (req, res) => {
+    req.query.id = req.params.id;
+    await backofficeRequestsDetailHandler(req as any, res as any);
 });
 
 // Since the Unipago proxy could be handled via the middleware directly for local dev (more efficient),

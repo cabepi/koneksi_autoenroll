@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth.js';
 import MainLayout from './layouts/MainLayout.js';
 import LandingPage from './pages/LandingPage.js';
@@ -8,12 +8,18 @@ import DoctorStep2 from './pages/DoctorStep2.js';
 import DoctorStep3 from './pages/DoctorStep3.js';
 import DoctorStep4 from './pages/DoctorStep4.js';
 import EnrollmentSuccess from './pages/EnrollmentSuccess.js';
-import Dashboard from './pages/Dashboard.js';
+import Dashboard from './pages/backoffice_pages/Dashboard.js';
+import BackofficeEnrollmentStatus from './pages/backoffice_pages/BackofficeEnrollmentStatus.js';
 import CentroEnConstruccion from './pages/CentroEnConstruccion.js';
 import { EnrollmentStatus } from './pages/EnrollmentStatus.js';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const { isAuthenticated } = useAuth();
+
+    if (!isAuthenticated) {
+        return <Navigate to="/" replace />;
+    }
+
     return children;
 };
 
@@ -35,13 +41,18 @@ function App() {
                 <Route path="/doctor-enrollment-status/:id" element={<EnrollmentStatus />} />
 
                 {/* Protected Routes */}
-                <Route path="/dashboard" element={
+                <Route path="/backoffice/dashboard" element={
                     <ProtectedRoute>
                         <Dashboard />
                     </ProtectedRoute>
                 } />
+                <Route path="/backoffice/enrollment-status/:id" element={
+                    <ProtectedRoute>
+                        <BackofficeEnrollmentStatus />
+                    </ProtectedRoute>
+                } />
             </Route>
-            <Route path="*" element={<div className="text-center mt-10">404 - Not Found</div>} />
+            <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     );
 }

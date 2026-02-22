@@ -14,7 +14,7 @@ export class OtpService {
      * Generates a 4-digit OTP, saves it to the database, and sends it via email.
      * Returns the UUID of the generated OTP if successful, otherwise null.
      */
-    public async generateAndSendOtp(identifier: string): Promise<string | null> {
+    public async generateAndSendOtp(identifier: string, context: 'enrollment' | 'backoffice' = 'enrollment'): Promise<string | null> {
         // Generate a random 4-digit code
         const code = Math.floor(1000 + Math.random() * 9000).toString();
 
@@ -27,8 +27,13 @@ export class OtpService {
         const newOtp = await this.otpRepository.createOtp(identifier, code, expiresAt);
 
         // Send Email
-        const htmlBody = this.notificationService.getOtpEmailTemplate(code, expirationMinutes);
-        const subject = 'Tu código de verificación - Koneksi';
+        const htmlBody = context === 'backoffice'
+            ? this.notificationService.getBackofficeOtpEmailTemplate(code, expirationMinutes)
+            : this.notificationService.getOtpEmailTemplate(code, expirationMinutes);
+
+        const subject = context === 'backoffice'
+            ? 'Acceso Seguro: Tu código de Koneksi Backoffice'
+            : 'Tu código de verificación - Koneksi';
 
         const isSent = await this.notificationService.sendEmail(identifier, subject, htmlBody);
 

@@ -113,6 +113,48 @@ export class NotificationService {
     }
 
     /**
+     * Renders a visually appealing HTML for Backoffice Login OTP
+     */
+    public getBackofficeOtpEmailTemplate(otpCode: string, validityMinutes: number): string {
+        return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: 'Inter', Arial, sans-serif; background-color: #f4f4f7; color: #333; margin: 0; padding: 20px; }
+                .container { max-width: 500px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; padding: 30px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+                .logo { font-size: 24px; font-weight: bold; color: #6D28D9; margin-bottom: 20px; }
+                .title { font-size: 20px; color: #111827; margin-bottom: 10px; }
+                .message { font-size: 15px; color: #4B5563; line-height: 1.5; margin-bottom: 30px; }
+                .otp-box { background-color: #F3E8FF; border: 2px dashed #8B5CF6; border-radius: 8px; padding: 15px; margin: 20px 0; }
+                .otp-code { font-size: 32px; font-weight: 800; color: #6D28D9; letter-spacing: 4px; }
+                .footer { font-size: 12px; color: #9CA3AF; margin-top: 30px; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="logo">Koneksi Backoffice</div>
+                <h1 class="title">Acceso al Sistema</h1>
+                <p class="message">
+                    Hola,<br/><br/>
+                    Se ha solicitado acceso al panel de administración (Backoffice) de Koneksi con esta dirección de correo. Utiliza el siguiente código para iniciar sesión con seguridad:
+                </p>
+                <div class="otp-box">
+                    <span class="otp-code">${otpCode}</span>
+                </div>
+                <p class="message" style="font-size: 13px;">
+                    Este código es válido por <strong>${validityMinutes} minutos</strong>. Si no intentaste iniciar sesión en el sistema, es seguro ignorar este correo.
+                </p>
+                <div class="footer">
+                    &copy; ${new Date().getFullYear()} Koneksi. Todos los derechos reservados.
+                </div>
+            </div>
+        </body>
+        </html>
+        `;
+    }
+
+    /**
      * Renders a visually appealing HTML for Enrollment Success with Tracking QR
      */
     public getEnrollmentSuccessEmailTemplate(doctorName: string, trackingUuid: string, frontendUrl: string): string {

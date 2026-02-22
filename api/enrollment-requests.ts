@@ -69,7 +69,7 @@ export default async function handler(req: any, res: any) {
         // 5. Send Success Email
         try {
             const frontendUrl = process.env.VITE_APP_URL || 'http://localhost:5173';
-            const fullName = `${body.firstName} ${body.lastName}`.trim();
+            const fullName = body.fullName || '';
             const emailHtml = notificationService.getEnrollmentSuccessEmailTemplate(fullName, id, frontendUrl);
             await notificationService.sendEmail(body.email, '¡Solicitud de Enrolamiento Recibida! - Koneksi', emailHtml);
         } catch (emailError) {
