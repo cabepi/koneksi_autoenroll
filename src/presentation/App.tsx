@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react';
 import { useAuth } from './hooks/useAuth.js';
 import MainLayout from './layouts/MainLayout.js';
 import LandingPage from './pages/LandingPage.js';
@@ -13,7 +14,7 @@ import BackofficeEnrollmentStatus from './pages/backoffice_pages/BackofficeEnrol
 import CentroEnConstruccion from './pages/CentroEnConstruccion.js';
 import { EnrollmentStatus } from './pages/EnrollmentStatus.js';
 
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const { isAuthenticated } = useAuth();
 
     if (!isAuthenticated) {
@@ -26,8 +27,8 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 function App() {
     return (
         <Routes>
+            {/* Public Routes with Main Header */}
             <Route element={<MainLayout />}>
-                {/* Public Routes with Main Header */}
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/register/doctor-step-1" element={<DoctorStep1 />} />
@@ -39,19 +40,20 @@ function App() {
 
                 {/* Tracking Route */}
                 <Route path="/doctor-enrollment-status/:id" element={<EnrollmentStatus />} />
-
-                {/* Protected Routes */}
-                <Route path="/backoffice/dashboard" element={
-                    <ProtectedRoute>
-                        <Dashboard />
-                    </ProtectedRoute>
-                } />
-                <Route path="/backoffice/enrollment-status/:id" element={
-                    <ProtectedRoute>
-                        <BackofficeEnrollmentStatus />
-                    </ProtectedRoute>
-                } />
             </Route>
+
+            {/* Protected Routes (No MainLayout wrapper, so no public Header) */}
+            <Route path="/backoffice/dashboard" element={
+                <ProtectedRoute>
+                    <Dashboard />
+                </ProtectedRoute>
+            } />
+            <Route path="/backoffice/enrollment-status/:id" element={
+                <ProtectedRoute>
+                    <BackofficeEnrollmentStatus />
+                </ProtectedRoute>
+            } />
+
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     );

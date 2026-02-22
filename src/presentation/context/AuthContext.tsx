@@ -17,9 +17,27 @@ export const AuthContext = createContext<AuthContextType>({
     isAuthenticated: false,
 });
 
+const getInitialAuth = () => {
+    if (typeof window === 'undefined') return { token: null, user: null };
+
+    const storedToken = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+    if (storedToken && storedUser) {
+        try {
+            const payload = JSON.parse(atob(storedToken.split('.')[1]));
+            if (payload.exp * 1000 >= Date.now()) {
+                return { token: storedToken, user: JSON.parse(storedUser) };
+            }
+        } catch (e) {
+            console.error("Invalid token in localStorage", e);
+        }
+    }
+    return { token: null, user: null };
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [token, setToken] = useState<string | null>(null);
+    const [user, setUser] = useState<User | null>(() => getInitialAuth().user);
+    const [token, setToken] = useState<string | null>(() => getInitialAuth().token);
 
     useEffect(() => {
         const checkToken = () => {
