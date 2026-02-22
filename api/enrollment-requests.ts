@@ -43,20 +43,21 @@ export default async function handler(req: any, res: any) {
                 const base64Data = body.biometricImageBase64.replace(/^data:image\/\w+;base64,/, '');
                 const buffer = Buffer.from(base64Data, 'base64');
 
-                // Estructura de carpetas: solicitudes_enrolamiento_medicos/id_de_solicitud/cedula/biometric_scan.jpg
-                const path = `solicitudes_enrolamiento_medicos/${id}/${body.identificationNumber}/biometric_scan.jpg`;
+                // Estructura de carpetas: doctor_enrollment_requests/id_de_solicitud/cedula/biometric_scan.jpg
+                const path = `doctor_enrollment_requests/${id}/${body.identificationNumber}/biometric_scan.jpg`;
 
                 const blob = await put(path, buffer, {
-                    access: 'public',
+                    access: 'private',
                     contentType: 'image/jpeg',
                     token: process.env.BLOB_READ_WRITE_TOKEN
                 });
 
                 // 3. Update the record with the actual URL
                 await repository.updateBiometricUrl(id, blob.url);
-            } catch (imageError) {
+            } catch (imageError: any) {
                 console.error('Error uploading image or updating URL. DB record exists with null URL.', imageError);
-                // Depending on requirements, we might return partial success here
+                // Propagate the exact blob error to the frontend
+                throw new Error(`Fallo al subir a Vercel Blob: ${imageError.message || imageError}`);
             }
         }
 
@@ -64,8 +65,8 @@ export default async function handler(req: any, res: any) {
         await repository.insertStatusHistory(id, 'PENDING_CONFIRMATION', body.email);
 
         return res.status(201).json({ id, status: 'PENDING_CONFIRMATION' });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error creating enrollment request:', error);
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ error: error.message || 'Internal Server Error' });
     }
 }

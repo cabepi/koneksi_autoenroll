@@ -15,6 +15,7 @@ import teamRolesHandler from '../../api/team-roles.js';
 import medicalCentersHandler from '../../api/medical-centers.js';
 import healthInsurancesHandler from '../../api/health-insurances.js';
 import enrollmentRequestsHandler from '../../api/enrollment-requests.js';
+import termsHandler from '../../api/terms.js';
 
 dotenv.config();
 
@@ -77,6 +78,10 @@ app.get('/api/medical-centers', async (req, res) => {
 
 app.get('/api/health-insurances', async (req, res) => {
     await healthInsurancesHandler(req as any, res as any);
+});
+
+app.get('/api/terms', async (req, res) => {
+    await termsHandler(req as any, res as any);
 });
 
 app.post('/api/enrollment-requests', jsonParser, async (req, res) => {

@@ -54,10 +54,15 @@ export default function EnrollmentSuccess() {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg mb-8">
-                    <button className="flex-1 flex items-center justify-center gap-3 border border-gray-200 bg-white text-slate-700 font-bold py-4 px-6 rounded-xl hover:bg-gray-50 transition-colors shadow-sm">
+                    <a
+                        href="/api/terms"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 flex items-center justify-center gap-3 border border-gray-200 bg-white text-slate-700 font-bold py-4 px-6 rounded-xl hover:bg-gray-50 transition-colors shadow-sm"
+                    >
                         <span className="material-symbols-outlined text-brand-yellow">description</span>
-                        Descargar Condiciones de Uso
-                    </button>
+                        Ver Condiciones de Uso
+                    </a>
                     <button className="flex-1 flex items-center justify-center gap-3 bg-accent-purple/10 text-accent-purple font-bold py-4 px-6 rounded-xl hover:bg-accent-purple/20 transition-colors border border-accent-purple/20">
                         <span className="material-symbols-outlined">arrow_forward</span>
                         Ir al EHR
