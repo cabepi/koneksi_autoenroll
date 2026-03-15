@@ -212,4 +212,128 @@ export class NotificationService {
         </html>
         `;
     }
+
+    /**
+     * Renders a visually appealing HTML for Evaluation Approved
+     */
+    public getEvaluationApprovedEmailTemplate(doctorName: string): string {
+        return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: 'Inter', Arial, sans-serif; background-color: #f4f4f7; color: #333; margin: 0; padding: 20px; }
+                .container { max-width: 550px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; padding: 30px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+                .logo { font-size: 24px; font-weight: bold; color: #6D28D9; margin-bottom: 20px; }
+                .title { font-size: 20px; color: #16a34a; margin-bottom: 10px; }
+                .message { font-size: 15px; color: #4B5563; line-height: 1.6; margin-bottom: 20px; text-align: left; }
+                .footer { font-size: 12px; color: #9CA3AF; margin-top: 30px; border-top: 1px solid #E5E7EB; padding-top: 20px; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="logo">Koneksi</div>
+                <h1 class="title">¡Alta Médica Aprobada!</h1>
+                <p class="message">
+                    Hola Dr(a). <strong>${doctorName}</strong>,<br/><br/>
+                    Nos complace informarle que su solicitud de enrolamiento ha sido <strong>aprobada exitosamente</strong> por nuestro equipo de revisión.
+                    <br/><br/>
+                    Próximamente estaremos enviando un correo con sus credenciales e instrucciones de acceso al portal médico. ¡Bienvenido a Koneksi!
+                </p>
+                <div class="footer">
+                    Este es un mensaje automático, por favor no responda a este correo.<br/>
+                    &copy; ${new Date().getFullYear()} Koneksi. Todos los derechos reservados.
+                </div>
+            </div>
+        </body>
+        </html>
+        `;
+    }
+
+    /**
+     * Renders a visually appealing HTML for Evaluation Observed
+     */
+    public getEvaluationObservedEmailTemplate(doctorName: string, reasonDescription: string, notes: string, trackingUuid: string, frontendUrl: string): string {
+        const trackingUrl = `${frontendUrl}/doctor-enrollment-status/${trackingUuid}`;
+        
+        return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: 'Inter', Arial, sans-serif; background-color: #f4f4f7; color: #333; margin: 0; padding: 20px; }
+                .container { max-width: 550px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; padding: 30px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+                .logo { font-size: 24px; font-weight: bold; color: #6D28D9; margin-bottom: 20px; }
+                .title { font-size: 20px; color: #d97706; margin-bottom: 10px; }
+                .message { font-size: 15px; color: #4B5563; line-height: 1.6; margin-bottom: 15px; text-align: left; }
+                .box { background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; text-align: left; border-radius: 4px; }
+                .button { display: inline-block; background-color: #6D28D9; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 25px 0; }
+                .footer { font-size: 12px; color: #9CA3AF; margin-top: 30px; border-top: 1px solid #E5E7EB; padding-top: 20px; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="logo">Koneksi</div>
+                <h1 class="title">Observación en su Solicitud</h1>
+                <p class="message">
+                    Hola Dr(a). <strong>${doctorName}</strong>,<br/><br/>
+                    Nuestro equipo ha revisado su solicitud de enrolamiento pero requiere un ajuste antes de poder ser aprobada.
+                </p>
+                <div class="box">
+                    <p style="margin-top:0;"><strong>Motivo:</strong> ${reasonDescription}</p>
+                    ${notes ? `<p style="margin-bottom:0;"><strong>Notas:</strong> ${notes}</p>` : ''}
+                </div>
+                <p class="message">
+                    Por favor, ingrese al portal mediante el siguiente botón para ajustar su solicitud y continuar con el proceso.
+                </p>
+                <a href="${trackingUrl}" class="button">Ajustar mi Solicitud</a>
+                <div class="footer">
+                    Este es un mensaje automático, por favor no responda a este correo.<br/>
+                    &copy; ${new Date().getFullYear()} Koneksi. Todos los derechos reservados.
+                </div>
+            </div>
+        </body>
+        </html>
+        `;
+    }
+
+    /**
+     * Renders a visually appealing HTML for Evaluation Rejected
+     */
+    public getEvaluationRejectedEmailTemplate(doctorName: string, reasonDescription: string, notes: string): string {
+        return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: 'Inter', Arial, sans-serif; background-color: #f4f4f7; color: #333; margin: 0; padding: 20px; }
+                .container { max-width: 550px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; padding: 30px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+                .logo { font-size: 24px; font-weight: bold; color: #6D28D9; margin-bottom: 20px; }
+                .title { font-size: 20px; color: #dc2626; margin-bottom: 10px; }
+                .message { font-size: 15px; color: #4B5563; line-height: 1.6; margin-bottom: 15px; text-align: left; }
+                .box { background-color: #fee2e2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0; text-align: left; border-radius: 4px; }
+                .footer { font-size: 12px; color: #9CA3AF; margin-top: 30px; border-top: 1px solid #E5E7EB; padding-top: 20px; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="logo">Koneksi</div>
+                <h1 class="title">Solicitud de Enrolamiento Rechazada</h1>
+                <p class="message">
+                    Hola Dr(a). <strong>${doctorName}</strong>,<br/><br/>
+                    Lamentamos informarle que su solicitud de enrolamiento ha sido rechazada debido a que no cumple con los requisitos mínimos de nuestro proceso de credencialización.
+                </p>
+                <div class="box">
+                    <p style="margin-top:0;"><strong>Motivo:</strong> ${reasonDescription}</p>
+                    ${notes ? `<p style="margin-bottom:0;"><strong>Notas Adicionales:</strong> ${notes}</p>` : ''}
+                </div>
+                <div class="footer">
+                    Este es un mensaje automático, por favor no responda a este correo.<br/>
+                    &copy; ${new Date().getFullYear()} Koneksi. Todos los derechos reservados.
+                </div>
+            </div>
+        </body>
+        </html>
+        `;
+    }
 }

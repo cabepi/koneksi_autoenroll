@@ -35,26 +35,54 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-        // Query basic info alongside latest status
-        const queryText = `
+        const { status, page = '1', limit = '10' } = req.query;
+
+        const pageNum = Math.max(1, parseInt(page as string, 10));
+        const limitNum = Math.min(100, Math.max(1, parseInt(limit as string, 10)));
+        const offset = (pageNum - 1) * limitNum;
+
+        // Base where clause and params setup for count and payload queries
+        let whereClause = '';
+        const queryParams: any[] = [];
+        
+        if (status && typeof status === 'string') {
+            whereClause = ` WHERE er.status = $1`;
+            queryParams.push(status);
+        }
+
+        // --- 1. Get the Total Count for Pagination Meta ---
+        const countQueryText = `SELECT COUNT(*)::int as total FROM koneksi_autoenroll.doctor_enrollment_requests er${whereClause};`;
+        const { rows: countRows } = await pool.query(countQueryText, queryParams);
+        const totalRecords = countRows.length > 0 ? countRows[0].total : 0;
+        const totalPages = Math.ceil(totalRecords / limitNum);
+
+        // --- 2. Get the Actual Paginated Data ---
+        const dataQueryText = `
             SELECT 
                 er.id, 
                 er.full_name, 
                 er.email, 
                 er.created_at,
-                (
-                    SELECT status 
-                    FROM koneksi_autoenroll.enrollment_request_status_history h 
-                    WHERE h.request_id = er.id 
-                    ORDER BY h.changed_at DESC 
-                    LIMIT 1
-                ) as latest_status
+                er.status as latest_status
             FROM koneksi_autoenroll.doctor_enrollment_requests er
-            ORDER BY er.created_at DESC;
+            ${whereClause}
+            ORDER BY er.created_at DESC
+            LIMIT $${queryParams.length + 1} OFFSET $${queryParams.length + 2};
         `;
-        const { rows } = await pool.query(queryText);
+        
+        const dataParams = [...queryParams, limitNum, offset];
+        const { rows: dataRows } = await pool.query(dataQueryText, dataParams);
 
-        return res.status(200).json(rows);
+        // --- 3. Return Paginated Structure ---
+        return res.status(200).json({
+            data: dataRows,
+            meta: {
+                totalRecords,
+                page: pageNum,
+                limit: limitNum,
+                totalPages
+            }
+        });
     } catch (error) {
         console.error('API Error fetching backoffice requests:', error);
         return res.status(500).json({ error: 'Internal Server Error' });

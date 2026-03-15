@@ -13,6 +13,7 @@ import Dashboard from './pages/backoffice_pages/Dashboard.js';
 import BackofficeEnrollmentStatus from './pages/backoffice_pages/BackofficeEnrollmentStatus.js';
 import CentroEnConstruccion from './pages/CentroEnConstruccion.js';
 import { EnrollmentStatus } from './pages/EnrollmentStatus.js';
+import AdjustRequest from './pages/AdjustRequest.js';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const { isAuthenticated } = useAuth();
@@ -40,6 +41,9 @@ function App() {
 
                 {/* Tracking Route */}
                 <Route path="/doctor-enrollment-status/:id" element={<EnrollmentStatus />} />
+
+                {/* Adjustment Route */}
+                <Route path="/adjust-request/:id" element={<AdjustRequest />} />
             </Route>
 
             {/* Protected Routes (No MainLayout wrapper, so no public Header) */}

@@ -51,6 +51,44 @@ export class EnrollmentRequestRepository {
         }
     }
 
+    async update(id: string, payload: EnrollmentPayload): Promise<void> {
+        const client = await this.pool.connect();
+        try {
+            await client.query(
+                `UPDATE koneksi_autoenroll.doctor_enrollment_requests 
+                 SET full_name = $1, 
+                     medical_license = $2, 
+                     registration_date = $3, 
+                     specialties = $4, 
+                     email = $5, 
+                     email_verified = $6, 
+                     phone = $7, 
+                     team_members = $8, 
+                     medical_centers = $9, 
+                     ars_providers = $10,
+                     status = 'CORRECTED',
+                     evaluation_reason_id = NULL,
+                     evaluation_notes = NULL
+                 WHERE id = $11`,
+                [
+                    payload.fullName,
+                    payload.medicalLicense,
+                    payload.registrationDate,
+                    JSON.stringify(payload.specialties),
+                    payload.email,
+                    payload.emailVerified,
+                    payload.phone,
+                    JSON.stringify(payload.teamMembers),
+                    JSON.stringify(payload.medicalCenters),
+                    JSON.stringify(payload.arsProviders),
+                    id
+                ]
+            );
+        } finally {
+            client.release();
+        }
+    }
+
     async updateBiometricUrl(id: string, url: string): Promise<void> {
         const client = await this.pool.connect();
         try {
@@ -87,6 +125,9 @@ export class EnrollmentRequestRepository {
                     r.id,
                     r.identification_number,
                     r.full_name,
+                    r.medical_license,
+                    r.registration_date,
+                    r.biometric_image_url,
                     r.email,
                     r.phone,
                     r.specialties,
@@ -94,6 +135,8 @@ export class EnrollmentRequestRepository {
                     r.medical_centers,
                     r.ars_providers,
                     r.created_at,
+                    r.evaluation_notes,
+                    er.description as evaluation_reason_description,
                     (
                         SELECT status 
                         FROM koneksi_autoenroll.enrollment_request_status_history h 
@@ -102,6 +145,7 @@ export class EnrollmentRequestRepository {
                         LIMIT 1
                     ) as current_status
                 FROM koneksi_autoenroll.doctor_enrollment_requests r
+                LEFT JOIN koneksi_autoenroll.evaluation_reasons er ON er.id = r.evaluation_reason_id
                 WHERE r.id = $1
             `;
             const result = await client.query(query, [id]);

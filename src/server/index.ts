@@ -20,7 +20,11 @@ import termsHandler from '../../api/terms.js';
 import authGenerateHandler from '../../api/auth/generate-otp.js';
 import authValidateHandler from '../../api/auth/validate-otp.js';
 import backofficeRequestsHandler from '../../api/backoffice/requests.js';
+import backofficeRequestsStatsHandler from '../../api/backoffice/requests-stats.js';
 import backofficeRequestsDetailHandler from '../../api/backoffice/requests/[id].js';
+import backofficeMediaHandler from '../../api/backoffice/media.js';
+import backofficeEvaluationReasonsHandler from '../../api/backoffice/evaluation-reasons.js';
+import backofficeEvaluateHandler from '../../api/backoffice/requests/[id]/evaluate.js';
 
 dotenv.config();
 
@@ -107,15 +111,37 @@ app.get('/api/enrollment-requests/:id', async (req, res) => {
     await enrollmentStatusHandler(req as any, res as any);
 });
 
+app.put('/api/enrollment-requests/:id', jsonParser, async (req, res) => {
+    req.query.id = req.params.id;
+    await enrollmentStatusHandler(req as any, res as any);
+});
+
 app.get('/api/backoffice/requests', async (req, res) => {
     // We already have authenticate logic via `requireAuth` middleware available locally!
     // But since the serverless function performs its own JWT extraction from headers, we'll let it handle it.
     await backofficeRequestsHandler(req as any, res as any);
 });
 
+app.get('/api/backoffice/requests-stats', async (req, res) => {
+    await backofficeRequestsStatsHandler(req as any, res as any);
+});
+
 app.get('/api/backoffice/requests/:id', async (req, res) => {
     req.query.id = req.params.id;
     await backofficeRequestsDetailHandler(req as any, res as any);
+});
+
+app.get('/api/backoffice/media', async (req, res) => {
+    await backofficeMediaHandler(req as any, res as any);
+});
+
+app.get('/api/backoffice/evaluation-reasons', async (req, res) => {
+    await backofficeEvaluationReasonsHandler(req as any, res as any);
+});
+
+app.post('/api/backoffice/requests/:id/evaluate', jsonParser, async (req, res) => {
+    req.query.id = req.params.id;
+    await backofficeEvaluateHandler(req as any, res as any);
 });
 
 // Since the Unipago proxy could be handled via the middleware directly for local dev (more efficient),
@@ -124,13 +150,13 @@ app.use('/api/unipago', requireAuth, createProxyMiddleware({
     target: process.env.UNIPAGO_API_URL || 'https://api.test',
     changeOrigin: true,
     pathRewrite: { '^/api/unipago': '' },
-    onProxyReq: (proxyReq) => {
+    onProxyReq: (proxyReq: any) => {
         // Inject any required API keys
         if (process.env.UNIPAGO_API_KEY) {
             proxyReq.setHeader('Authorization', `Bearer ${process.env.UNIPAGO_API_KEY}`);
         }
     }
-}));
+} as any));
 
 // If we want to strictly use our `api/proxy.ts` instead:
 app.all('/api/proxy/*', requireAuth, jsonParser, async (req, res) => {

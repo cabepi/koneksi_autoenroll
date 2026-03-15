@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth.js';
-import { CheckCircle2, Clock, AlertCircle, RefreshCw, XCircle, FileText, ChevronLeft, MapPin, Building2, User, Stethoscope, Mail, Phone, Home, ArrowLeft, AlertTriangle } from 'lucide-react';
+import { CheckCircle2, Clock, XCircle, FileText, ChevronLeft, MapPin, Building2, User, Stethoscope, Mail, Phone, Home, ArrowLeft, AlertTriangle, Fingerprint, Calendar, FileBadge, Download } from 'lucide-react';
 import BackofficeHeader from '../../components/backoffice/BackofficeHeader.js';
 
 export default function BackofficeEnrollmentStatus() {
@@ -10,6 +10,15 @@ export default function BackofficeEnrollmentStatus() {
     const [requestData, setRequestData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState("");
+    const [biometricBlobUrl, setBiometricBlobUrl] = useState<string | null>(null);
+    const [isLoadingBiometric, setIsLoadingBiometric] = useState(false);
+
+    const [reasonsList, setReasonsList] = useState<any[]>([]);
+    const [selectedAction, setSelectedAction] = useState<'APPROVE' | 'OBSERVE' | 'REJECT' | null>(null);
+    const [selectedReasonId, setSelectedReasonId] = useState<string>('');
+    const [evaluationNotes, setEvaluationNotes] = useState<string>('');
+    const [isSubmittingEval, setIsSubmittingEval] = useState(false);
+    const [evalError, setEvalError] = useState('');
 
     const fetchStatus = async () => {
         setIsLoading(true);
@@ -39,11 +48,127 @@ export default function BackofficeEnrollmentStatus() {
         }
     };
 
+    const fetchReasons = async (actionType: 'OBSERVE' | 'REJECT') => {
+        try {
+            const res = await fetch(`/api/backoffice/evaluation-reasons?type=${actionType}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setReasonsList(data);
+            }
+        } catch (err) {
+            console.error("Failed to load evaluation reasons", err);
+        }
+    };
+
+    const handleActionSelect = (action: 'APPROVE' | 'OBSERVE' | 'REJECT') => {
+        setSelectedAction(action);
+        setSelectedReasonId('');
+        setEvaluationNotes('');
+        setEvalError('');
+        if (action === 'OBSERVE' || action === 'REJECT') {
+            fetchReasons(action);
+        }
+    };
+
+    const submitEvaluation = async () => {
+        if (!selectedAction) return;
+        
+        if (selectedAction !== 'APPROVE') {
+            if (!selectedReasonId) {
+                setEvalError('Debes seleccionar un motivo catalogado.');
+                return;
+            }
+            const selectedReasonObj = reasonsList.find(r => r.id.toString() === selectedReasonId);
+            if (selectedReasonObj?.description.toLowerCase() === 'otro' && !evaluationNotes.trim()) {
+                setEvalError('Por favor especifica los detalles en las notas si elegiste "Otro".');
+                return;
+            }
+        }
+
+        setIsSubmittingEval(true);
+        setEvalError('');
+
+        try {
+            const payload = {
+                action: selectedAction,
+                reason_id: selectedReasonId ? parseInt(selectedReasonId) : undefined,
+                notes: evaluationNotes
+            };
+
+            const res = await fetch(`/api/backoffice/requests/${id}/evaluate`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) {
+                const errData = await res.json();
+                throw new Error(errData.error || 'Ocurrió un error al procesar la evaluación.');
+            }
+
+            // Reload status on success
+            await fetchStatus();
+            setSelectedAction(null);
+            
+        } catch (err: any) {
+            setEvalError(err.message);
+        } finally {
+            setIsSubmittingEval(false);
+        }
+    };
+
+    const fetchBiometricImage = async (url: string) => {
+        setIsLoadingBiometric(true);
+        try {
+            const res = await fetch(`/api/backoffice/media?url=${encodeURIComponent(url)}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!res.ok) throw new Error("Error fetching image");
+            
+            const blob = await res.blob();
+            const objectUrl = URL.createObjectURL(blob);
+            setBiometricBlobUrl(objectUrl);
+        } catch (err) {
+            console.error("Failed to load biometric image securely", err);
+        } finally {
+            setIsLoadingBiometric(false);
+        }
+    };
+
     useEffect(() => {
         if (id && token) {
             fetchStatus();
         }
     }, [id, token]);
+
+    // Clean up blob URL on unmount or when requestData changes
+    useEffect(() => {
+        if (requestData?.biometric_image_url) {
+            fetchBiometricImage(requestData.biometric_image_url);
+        }
+        return () => {
+            if (biometricBlobUrl) {
+                URL.revokeObjectURL(biometricBlobUrl);
+            }
+        };
+    }, [requestData?.biometric_image_url]);
+
+    const handleDownloadBiometric = () => {
+        if (!biometricBlobUrl || !requestData) return;
+        const link = document.createElement('a');
+        link.href = biometricBlobUrl;
+        link.download = `biometric-${requestData.identification_number}.jpg`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     const getStatusConfig = (status?: string) => {
         if (!status) {
@@ -62,6 +187,13 @@ export default function BackofficeEnrollmentStatus() {
                     color: 'bg-yellow-100 text-yellow-800',
                     icon: <Clock className="w-12 h-12 text-yellow-500 mb-4 mx-auto" />,
                     description: 'Tu solicitud ha sido recibida y está en cola para ser revisada por nuestro equipo de credenciales. Te notificaremos cualquier actualización.'
+                };
+            case 'CORRECTED':
+                return {
+                    title: 'Ajustes Recibidos',
+                    color: 'bg-indigo-100 text-indigo-800',
+                    icon: <FileText className="w-12 h-12 text-indigo-500 mb-4 mx-auto" />,
+                    description: 'El médico ha enviado ajustes a su solicitud observada y está lista para ser evaluada nuevamente.'
                 };
             case 'APPROVED':
                 return {
@@ -181,6 +313,28 @@ export default function BackofficeEnrollmentStatus() {
 
                                     <div className="flex gap-4 items-start">
                                         <div className="bg-white p-2 rounded-lg shadow-sm border border-slate-100 shrink-0 mt-0.5">
+                                            <FileBadge className="w-4 h-4 text-slate-400" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-slate-500 mb-0.5 font-medium">Exequátur / Licencia Médica</p>
+                                            <p className="text-sm font-semibold text-slate-800">{requestData.medical_license || 'No provisto'}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-4 items-start">
+                                        <div className="bg-white p-2 rounded-lg shadow-sm border border-slate-100 shrink-0 mt-0.5">
+                                            <Calendar className="w-4 h-4 text-slate-400" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-slate-500 mb-0.5 font-medium">Fecha de Graduación/Registro</p>
+                                            <p className="text-sm font-semibold text-slate-800">
+                                                {requestData.registration_date ? new Date(requestData.registration_date).toLocaleDateString() : 'No provista'}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-4 items-start">
+                                        <div className="bg-white p-2 rounded-lg shadow-sm border border-slate-100 shrink-0 mt-0.5">
                                             <Stethoscope className="w-4 h-4 text-slate-400" />
                                         </div>
                                         <div className="w-full">
@@ -229,6 +383,65 @@ export default function BackofficeEnrollmentStatus() {
                         </div>
                     </div>
 
+                    {/* Biometric Validation */}
+                    <div className="bg-white/90 backdrop-blur rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100/50 mt-6">
+                        <h3 className="font-semibold text-slate-800 mb-6 flex items-center gap-2 text-lg">
+                            <Fingerprint className="w-5 h-5 text-brand-purple-dark" />
+                            Validación Biométrica (Identidad)
+                        </h3>
+                        {requestData.biometric_image_url ? (
+                            <div className="flex flex-col md:flex-row gap-6 items-start">
+                                <div className="rounded-xl overflow-hidden border-4 border-white shadow-md w-full max-w-[240px] bg-slate-100 shrink-0 relative min-h-[320px] flex items-center justify-center">
+                                    {isLoadingBiometric ? (
+                                        <div className="flex flex-col items-center gap-2 text-slate-400">
+                                            <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-brand-purple-dark animate-spin p-2"></div>
+                                            <span className="text-xs font-medium">Desencriptando...</span>
+                                        </div>
+                                    ) : biometricBlobUrl ? (
+                                        <img 
+                                            src={biometricBlobUrl} 
+                                            alt="Selfie Biométrica del Médico" 
+                                            className="w-full h-auto object-cover aspect-[3/4]"
+                                        />
+                                    ) : (
+                                        <div className="flex flex-col items-center text-red-400 px-4 text-center">
+                                            <AlertTriangle className="w-8 h-8 mb-2" />
+                                            <span className="text-xs font-medium">Error al cargar la imagen segura</span>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="space-y-4 max-w-lg pt-2">
+                                    <p className="text-slate-600 text-sm">
+                                        Esta es la imagen de captura facial proporcionada durante el proceso de enrolamiento 
+                                        para validar la identidad asociada al documento de identidad ({requestData.identification_number}).
+                                    </p>
+                                    <div className="flex flex-col sm:flex-row gap-3">
+                                        <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-3 py-2 rounded-lg border border-green-100 text-sm font-medium">
+                                            <CheckCircle2 className="w-4 h-4" />
+                                            Imagen Recibida
+                                        </div>
+                                        <button 
+                                            onClick={handleDownloadBiometric}
+                                            disabled={!biometricBlobUrl || isLoadingBiometric}
+                                            className="inline-flex items-center gap-2 bg-white text-slate-700 hover:text-brand-purple-dark px-4 py-2 rounded-lg border border-slate-200 hover:border-brand-purple-light hover:bg-slate-50 transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                                        >
+                                            <Download className="w-4 h-4" />
+                                            Descargar Imagen
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-xl flex items-start gap-3">
+                                <AlertTriangle className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" />
+                                <div>
+                                    <p className="font-semibold text-sm">Validación biométrica ausente</p>
+                                    <p className="text-sm mt-1 text-yellow-700/80">Esta solicitud fue procesada sin enviar una fotografía biométrica válida o la carga falló.</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
                     {/* Medical Centers */}
                     {requestData.medical_centers && Array.isArray(requestData.medical_centers) && requestData.medical_centers.length > 0 && (
                         <div className="bg-white/90 backdrop-blur rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100/50 mt-6">
@@ -263,15 +476,18 @@ export default function BackofficeEnrollmentStatus() {
                             </h3>
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {requestData.team_members.map((member: any, i: number) => {
-                                    const name = typeof member === 'string' ? member : member.fullName || member.name || 'Asistente';
-                                    const doc = typeof member === 'string' ? undefined : member.documentId;
+                                    const isString = typeof member === 'string';
+                                    const name = isString ? member : (member.nombre ? `${member.nombre} ${member.apellido}` : member.fullName || member.name || 'Asistente');
+                                    const doc = isString ? undefined : member.cedula || member.documentId;
+                                    const role = isString ? undefined : member.rol;
                                     return (
-                                        <div key={i} className="p-4 bg-slate-50 border border-slate-100 rounded-xl flex items-start gap-3">
-                                            <div className="bg-white p-2 rounded-full border border-slate-200 mt-0.5">
+                                        <div key={i} className="p-4 bg-slate-50/70 rounded-xl flex items-center gap-3">
+                                            <div className="bg-white p-2 rounded-full border border-slate-100 shadow-sm">
                                                 <User className="w-4 h-4 text-slate-400" />
                                             </div>
-                                            <div>
-                                                <p className="text-sm font-medium text-slate-800">{name}</p>
+                                            <div className="flex flex-col justify-center">
+                                                <p className="text-sm font-semibold text-slate-800 leading-tight">{name}</p>
+                                                {role && <p className="text-sm text-slate-600 font-medium">{role}</p>}
                                                 {doc && <p className="text-xs text-slate-500 mt-1">Cédula: {doc}</p>}
                                             </div>
                                         </div>
@@ -282,17 +498,186 @@ export default function BackofficeEnrollmentStatus() {
                     )}
 
                     {requestData.ars_providers && requestData.ars_providers.length > 0 && (
-                        <div className="bg-white/90 backdrop-blur rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100/50 mt-6">
-                            <div className="px-6 py-4 border-b border-gray-200">
-                                <h3 className="text-lg font-semibold text-gray-900">ARS Afiliadas</h3>
+                        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 mt-6">
+                            <h3 className="font-bold text-slate-800 mb-6 pb-4 border-b border-slate-100">
+                                ARS Afiliadas
+                            </h3>
+                            <div className="flex flex-wrap gap-3">
+                                {requestData.ars_providers.map((ars: any, idx: number) => (
+                                    <span key={idx} className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium bg-slate-50 text-slate-700 border border-slate-200">
+                                        {ars.arsName} (Código: {ars.providerCode})
+                                    </span>
+                                ))}
                             </div>
-                            <div className="p-6">
-                                <div className="flex flex-wrap gap-2">
-                                    {requestData.ars_providers.map((ars: any, idx: number) => (
-                                        <span key={idx} className="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium bg-green-50 text-green-700 border border-green-200">
-                                            {ars.arsName} (Código: {ars.providerCode})
-                                        </span>
-                                    ))}
+                        </div>
+                    )}
+
+                    {/* Evaluation Action Block */}
+                    {(requestData.current_status === 'PENDING_CONFIRMATION' || requestData.current_status === 'CORRECTED') && (
+                        <div className="bg-white/90 backdrop-blur rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100/50 mt-6 md:mt-10 mb-10">
+                            <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2 pb-4 border-b border-slate-100">
+                                Decisión Final de Evaluación
+                            </h3>
+                            
+                            {!selectedAction ? (
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    <button 
+                                        onClick={() => handleActionSelect('APPROVE')}
+                                        className="py-4 px-6 bg-green-50 hover:bg-green-100 text-green-700 font-semibold rounded-xl border border-green-200 transition-colors flex flex-col items-center justify-center gap-2"
+                                    >
+                                        <CheckCircle2 className="w-6 h-6" />
+                                        Aprobar Alta
+                                    </button>
+                                    <button 
+                                        onClick={() => handleActionSelect('OBSERVE')}
+                                        className="py-4 px-6 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 font-semibold rounded-xl border border-yellow-200 transition-colors flex flex-col items-center justify-center gap-2"
+                                    >
+                                        <AlertTriangle className="w-6 h-6" />
+                                        Observar Solicitud
+                                    </button>
+                                    <button 
+                                        onClick={() => handleActionSelect('REJECT')}
+                                        className="py-4 px-6 bg-red-50 hover:bg-red-100 text-red-700 font-semibold rounded-xl border border-red-200 transition-colors flex flex-col items-center justify-center gap-2"
+                                    >
+                                        <XCircle className="w-6 h-6" />
+                                        Rechazar
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="space-y-6 animate-in slide-in-from-bottom-2 duration-300">
+                                    {/* Selected Action Header */}
+                                    <div className={`p-4 rounded-xl flex items-center justify-between border ${
+                                        selectedAction === 'APPROVE' ? 'bg-green-50 border-green-200 text-green-700' :
+                                        selectedAction === 'OBSERVE' ? 'bg-yellow-50 border-yellow-200 text-yellow-700' :
+                                        'bg-red-50 border-red-200 text-red-700'
+                                    }`}>
+                                        <div className="flex items-center gap-3 font-semibold">
+                                            {selectedAction === 'APPROVE' && <CheckCircle2 className="w-5 h-5" />}
+                                            {selectedAction === 'OBSERVE' && <AlertTriangle className="w-5 h-5" />}
+                                            {selectedAction === 'REJECT' && <XCircle className="w-5 h-5" />}
+                                            <span>
+                                                {selectedAction === 'APPROVE' ? 'Estás a punto de Aprobar esta solicitud' :
+                                                 selectedAction === 'OBSERVE' ? 'Estás a punto de Observar esta solicitud' :
+                                                 'Estás a punto de Rechazar esta solicitud'}
+                                            </span>
+                                        </div>
+                                        <button 
+                                            onClick={() => setSelectedAction(null)}
+                                            className="text-sm underline opacity-80 hover:opacity-100"
+                                            disabled={isSubmittingEval}
+                                        >
+                                            Cambiar
+                                        </button>
+                                    </div>
+
+                                    {/* Observation / Rejection Form */}
+                                    {selectedAction !== 'APPROVE' && (
+                                        <div className="space-y-4">
+                                            <div>
+                                                <label className="block text-sm font-medium text-slate-700 mb-2">Motivo Principal <span className="text-red-500">*</span></label>
+                                                <select 
+                                                    value={selectedReasonId}
+                                                    onChange={(e) => setSelectedReasonId(e.target.value)}
+                                                    disabled={isSubmittingEval}
+                                                    className="w-full bg-white border border-slate-300 rounded-lg px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-purple-light/50 focus:border-brand-purple-light transition-all"
+                                                >
+                                                    <option value="" disabled>Selecciona un motivo del catálogo...</option>
+                                                    {reasonsList.map((reason) => (
+                                                        <option key={reason.id} value={reason.id}>{reason.description}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            
+                                            <div>
+                                                <label className="block text-sm font-medium text-slate-700 mb-2">
+                                                    Notas Adicionales (Obligatorio si elige "Otro")
+                                                </label>
+                                                <textarea 
+                                                    value={evaluationNotes}
+                                                    onChange={(e) => setEvaluationNotes(e.target.value)}
+                                                    disabled={isSubmittingEval}
+                                                    rows={3}
+                                                    placeholder="Detalla la situación para el médico..."
+                                                    className="w-full bg-white border border-slate-300 rounded-lg px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-purple-light/50 focus:border-brand-purple-light transition-all resize-none"
+                                                ></textarea>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {evalError && (
+                                        <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm flex items-start gap-2 border border-red-100">
+                                            <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                                            <p>{evalError}</p>
+                                        </div>
+                                    )}
+
+                                    <div className="flex justify-end pt-4 border-t border-slate-100">
+                                        <button
+                                            onClick={submitEvaluation}
+                                            disabled={isSubmittingEval}
+                                            className={`px-6 py-2.5 rounded-lg font-medium text-white shadow-sm transition-all focus:ring-2 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2 ${
+                                                selectedAction === 'APPROVE' ? 'bg-green-600 hover:bg-green-700 focus:ring-green-500' :
+                                                selectedAction === 'OBSERVE' ? 'bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500' :
+                                                'bg-red-600 hover:bg-red-700 focus:ring-red-500'
+                                            }`}
+                                        >
+                                            {isSubmittingEval ? (
+                                                <>
+                                                    <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
+                                                    Procesando...
+                                                </>
+                                            ) : 'Confirmar Decisión'}
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Read-Only Evaluation Result Block */}
+                    {(requestData.current_status !== 'PENDING_CONFIRMATION' && requestData.current_status !== 'CORRECTED') && (
+                        <div className={`rounded-2xl p-6 md:p-8 shadow-sm border mt-6 md:mt-10 mb-10 ${
+                            requestData.current_status === 'CONFIRMED' ? 'bg-green-50/50 border-green-100' :
+                            requestData.current_status === 'OBSERVED' ? 'bg-yellow-50/50 border-yellow-100' :
+                            'bg-red-50/50 border-red-100'
+                        }`}>
+                            <h3 className="text-xl font-bold mb-6 flex items-center gap-2 pb-4 border-b border-black/5 text-slate-800">
+                                Resultado de Evaluación
+                            </h3>
+                            <div className="flex items-start">
+                                <div className="flex-shrink-0 mt-1">
+                                    {requestData.current_status === 'CONFIRMED' && <CheckCircle2 className="w-8 h-8 text-green-500" />}
+                                    {requestData.current_status === 'OBSERVED' && <AlertTriangle className="w-8 h-8 text-yellow-500" />}
+                                    {requestData.current_status === 'REJECTED' && <XCircle className="w-8 h-8 text-red-500" />}
+                                </div>
+                                <div className="ml-4 w-full">
+                                    <h4 className={`text-lg font-semibold ${
+                                        requestData.current_status === 'CONFIRMED' ? 'text-green-800' :
+                                        requestData.current_status === 'OBSERVED' ? 'text-yellow-800' :
+                                        'text-red-800'
+                                    }`}>
+                                        {requestData.current_status === 'CONFIRMED' ? 'Solicitud Aprobada' :
+                                         requestData.current_status === 'OBSERVED' ? 'Solicitud Observada' :
+                                         'Solicitud Rechazada'}
+                                    </h4>
+                                    
+                                    {requestData.current_status !== 'CONFIRMED' && requestData.evaluation_reason_description && (
+                                        <div className="mt-4 space-y-3">
+                                            <div>
+                                                <p className="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Motivo Principal</p>
+                                                <p className="text-base font-semibold text-slate-800">{requestData.evaluation_reason_description}</p>
+                                            </div>
+                                            
+                                            {requestData.evaluation_notes && (
+                                                <div>
+                                                    <p className="text-sm font-medium text-slate-500 uppercase tracking-wider mb-1">Notas Adicionales</p>
+                                                    <p className="text-sm text-slate-700 bg-white/60 p-4 rounded-lg border border-black/5 italic">
+                                                        "{requestData.evaluation_notes}"
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

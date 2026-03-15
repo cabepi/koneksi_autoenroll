@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowLeft } from 'lucide-react';
 
 interface EnrollmentDetail {
@@ -14,6 +14,11 @@ interface EnrollmentDetail {
     ars_providers: any[];
     created_at: string;
     current_status: string;
+    registration_date?: string;
+    exequatur?: string;
+    biometric_url?: string;
+    evaluation_notes?: string;
+    evaluation_reason_description?: string;
 }
 
 export const EnrollmentStatus: React.FC = () => {
@@ -21,6 +26,7 @@ export const EnrollmentStatus: React.FC = () => {
     const [data, setData] = useState<EnrollmentDetail | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const navigate = useNavigate();
     console.log("EnrollmentStatus mounted for id:", id);
 
     useEffect(() => {
@@ -61,10 +67,24 @@ export const EnrollmentStatus: React.FC = () => {
         switch (status) {
             case 'PENDING_CONFIRMATION':
                 return {
-                    label: 'Pendiente de Revisión',
+                    label: 'En Revisión',
+                    color: 'bg-blue-100 text-blue-800',
+                    icon: <Clock className="w-12 h-12 text-blue-500 mb-4 mx-auto" />,
+                    description: 'Tu solicitud ha sido recibida y se encuentra actualmente en revisión por nuestro equipo.'
+                };
+            case 'OBSERVED':
+                return {
+                    label: 'Solicitud Observada',
                     color: 'bg-yellow-100 text-yellow-800',
-                    icon: <Clock className="w-12 h-12 text-yellow-500 mb-4 mx-auto" />,
-                    description: 'Tu solicitud ha sido recibida y está en cola para ser revisada por nuestro equipo de credenciales. Te notificaremos cualquier actualización.'
+                    icon: <AlertTriangle className="w-12 h-12 text-yellow-500 mb-4 mx-auto" />,
+                    description: 'Hay algunas observaciones sobre tu solicitud que requieren tu atención. Revisa los detalles abajo.'
+                };
+            case 'CORRECTED':
+                return {
+                    label: 'Ajustes Recibidos',
+                    color: 'bg-blue-100 text-blue-800',
+                    icon: <CheckCircle className="w-12 h-12 text-blue-500 mb-4 mx-auto" />,
+                    description: 'Tus correcciones y ajustes han sido recibidos. Nuestro equipo los revisará a la brevedad posible.'
                 };
             case 'APPROVED':
                 return {
@@ -88,6 +108,11 @@ export const EnrollmentStatus: React.FC = () => {
                     description: 'Verificando el estado actual de la solicitud...'
                 };
         }
+    };
+
+    const handleAdjustRequest = () => {
+        // Redirect directly to the dedicated adjustment screen
+        navigate(`/adjust-request/${id}`);
     };
 
     console.log("EnrollmentStatus rendering state: ", { loading, error, data });
@@ -132,6 +157,53 @@ export const EnrollmentStatus: React.FC = () => {
                     <h2 className="text-2xl font-bold text-gray-900 mb-3">{config.label}</h2>
                     <p className="text-gray-600">{config.description}</p>
                 </div>
+
+                {data.current_status === 'OBSERVED' && (
+                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg shadow-md mb-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                        <div className="flex items-start">
+                            <div className="flex-shrink-0">
+                                <AlertTriangle className="h-6 w-6 text-yellow-500" aria-hidden="true" />
+                            </div>
+                            <div className="ml-3 w-full">
+                                <h3 className="text-lg font-medium text-yellow-800">Causal de Observación</h3>
+                                <div className="mt-2 text-sm text-yellow-700 space-y-2">
+                                    <p className="font-semibold">{data.evaluation_reason_description}</p>
+                                    {data.evaluation_notes && (
+                                        <p className="bg-yellow-100/50 p-3 rounded-md border border-yellow-200/50 italic">"{data.evaluation_notes}"</p>
+                                    )}
+                                </div>
+                                <div className="mt-6">
+                                    <button
+                                        onClick={handleAdjustRequest}
+                                        className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2.5 text-sm font-semibold text-yellow-700 shadow-sm ring-1 ring-inset ring-yellow-300 hover:bg-yellow-50 transition-colors"
+                                    >
+                                        Ajustar mi Solicitud
+                                    </button>
+                                    <p className="text-xs text-yellow-600 mt-3">Al presionar ajustar, regresará al inicio con sus datos precargados para modificarlos.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {data.current_status === 'REJECTED' && (
+                    <div className="bg-red-50 border-l-4 border-red-400 p-6 rounded-r-lg shadow-md mb-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                        <div className="flex items-start">
+                            <div className="flex-shrink-0">
+                                <XCircle className="h-6 w-6 text-red-500" aria-hidden="true" />
+                            </div>
+                            <div className="ml-3 w-full">
+                                <h3 className="text-lg font-medium text-red-800">Motivo de Rechazo</h3>
+                                <div className="mt-2 text-sm text-red-700 space-y-2">
+                                    <p className="font-semibold">{data.evaluation_reason_description}</p>
+                                    {data.evaluation_notes && (
+                                        <p className="bg-red-100/50 p-3 rounded-md border border-red-200/50 italic">"{data.evaluation_notes}"</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="px-6 py-4 border-b border-gray-200">

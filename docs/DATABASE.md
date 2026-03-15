@@ -74,7 +74,7 @@ erDiagram
 
     doctor_enrollment_requests {
         uuid id PK "ID autonumérico"
-        varchar status "PENDING_CONFIRMATION, CONFIRMED, REJECTED"
+        varchar status "PENDING_CONFIRMATION, OBSERVED, CONFIRMED, REJECTED, CORRECTED"
         varchar identification_number "Cédula / Pasaporte"
         varchar full_name "Nombre Titular"
         varchar medical_license "Exequátur"
@@ -111,7 +111,7 @@ Tabla transaccional que almacena el progreso y la data final de las solicitudes 
 | Columna | Tipo de Dato | Nulo | Por Defecto / Restricciones |
 | :--- | :--- | :---: | :--- |
 | `id` | `uuid` | No | `uuid_generate_v4()` (PK) |
-| `status` | `varchar(30)` | No | `'PENDING_CONFIRMATION'`. Restringido vía `CHECK (status IN ('PENDING_CONFIRMATION', 'CONFIRMED', 'REJECTED'))` |
+| `status` | `varchar(30)` | No | `'PENDING_CONFIRMATION'`. Restringido vía `CHECK (status IN ('PENDING_CONFIRMATION', 'OBSERVED', 'CONFIRMED', 'REJECTED', 'CORRECTED'))` |
 | `identification_number` | `varchar(20)`| Sí | Documento de identidad. |
 | `full_name` | `varchar(200)`| Sí | Nombre completo del especialista. |
 | `medical_license` | `varchar(50)` | Sí | Registro/exequátur médico. |
